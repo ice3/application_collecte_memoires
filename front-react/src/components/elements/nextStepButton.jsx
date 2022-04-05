@@ -1,6 +1,6 @@
-function NextStepButton({ handleNextGlobalStep }) {
+function NextStepButton({ handleNext, label }) {
     return (
-        <button onClick={handleNextGlobalStep}>Prochaine étape</button>
+        <button onClick={handleNext}>{label}</button>
     )
 }
 

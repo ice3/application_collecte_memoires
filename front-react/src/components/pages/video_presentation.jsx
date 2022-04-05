@@ -52,7 +52,7 @@ class VideoPlayer extends Component {
                         />
                     </div>
                     <button onClick={this.handleReplay}>Relancer la vidéo</button>
-                    <NextStepButton handleNextGlobalStep={this.props.handleNextGlobalStep} />
+                    <NextStepButton handleNext={this.props.handleNextGlobalStep} label={"Etape suivante"} />
                 </section>
             </div>
         )

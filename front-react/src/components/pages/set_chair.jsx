@@ -5,7 +5,7 @@ function SetChair({ shouldUseVideo, handleNextGlobalStep }) {
     return (
         <>
             <div>Prêts à commencer ?</div>
-            <NextStepButton handleNextGlobalStep={handleNextGlobalStep} />
+            <NextStepButton handleNext={handleNextGlobalStep} label={"Etape suivante"} />
             <WebcamStreamCapture />
         </>
     )

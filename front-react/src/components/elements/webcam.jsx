@@ -1,6 +1,6 @@
 import React from "react";
 import { findAllInRenderedTree } from "react-dom/test-utils";
-import Webcam from "./webcam_src.tsx";
+import Webcam from "react-webcam";
 
 const WebcamStreamCapture = () => {
     const webcamRef = React.useRef(null);
@@ -56,8 +56,8 @@ const WebcamStreamCapture = () => {
             <Webcam
                 audio={true}
                 ref={webcamRef}
-                onUserMediaError={e => alert("error")}
-                onUserMedia={e => alert("ok")}
+                onUserMediaError={e => console.error("Couldn't capture media devices", e)}
+                onUserMedia={e => console.log("Could capture media device", e)}
             />
             {capturing ? (
                 <button onClick={handleStopCaptureClick}>Stop Capture</button>

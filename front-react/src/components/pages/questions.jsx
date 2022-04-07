@@ -4,9 +4,9 @@ import NextStepButton from "../elements/nextStepButton"
 import Question from './question';
 
 const questions = [
-    { duration: 30, value: "Nous souhaitons mieux vous connaître, pourriez-vous vous présenter rapidement ? Et nous dire de qui vous allez parler ?" },
-    { duration: 30, value: " Choisissez un moment marquant de votre migration : votre départ, votre voyage ou votre arrivée. Décrivez-le-nous ?" },
-    { duration: 30, value: "Si vous deviez citer un seul objet, symbole ou souvenir qui serait caractéristique de votre témoignage, ce serait lequel ? et pourquoi ?" },
+    { secondsDuration: 10, value: "Nous souhaitons mieux vous connaître, pourriez-vous vous présenter rapidement ? Et nous dire de qui vous allez parler ?" },
+    { secondsDuration: 10, value: " Choisissez un moment marquant de votre migration : votre départ, votre voyage ou votre arrivée. Décrivez-le-nous ?" },
+    { secondsDuration: 10, value: "Si vous deviez citer un seul objet, symbole ou souvenir qui serait caractéristique de votre témoignage, ce serait lequel ? et pourquoi ?" },
 ]
 
 function RecordMemories({ shouldUseVideo, handleNextGlobalStep }) {
@@ -22,7 +22,6 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep }) {
             setQuestionsOver(true)
         }
     }
-    console.log(currentQuestionId, questions[currentQuestionId])
     const currentQuestion = questions[currentQuestionId]
 
 
@@ -36,8 +35,9 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep }) {
                 question={currentQuestion}
                 shouldUseVideo={shouldUseVideo}
                 step={currentQuestionId + 1}
-                number={questionsNb}
+                numberOfQuestions={questionsNb}
                 handleNextQuestion={nextQuestion}
+                key={currentQuestionId}
             />
 
             {

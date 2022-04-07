@@ -18,6 +18,10 @@ function IdentificationFormSelection({ handleNextGlobalStep }) {
 
     }
 
+    //  pour le clavier 
+    // https://hodgef.com/simple-keyboard/getting-started/react/
+    // https://hodgef.com/simple-keyboard/editor/?d=hodgef/simple-keyboard-layouts-demos/tree/french
+
     return (
         <>
             <div>Choix du formulaire d'identification</div>

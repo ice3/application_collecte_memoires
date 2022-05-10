@@ -56,6 +56,29 @@ h1, h2 {
   box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
 }
 
+.react-simple-keyboard {
+  font-size: 18pt
+}
+
+.hg-button {
+  height: 60px !important;
+}
+
+.hg-standardBtn {
+  width: 60px !important;
+}
+
+.hg-functionBtn {
+  width: 180px !important;
+}
+
+.formulaire-consentement {
+  height: 600px;
+  width: 60%;
+  overflow-y: auto;
+
+}
+
 /* ligne graphique */
 /* bleu1 #282d66
 bleu2: #383b90

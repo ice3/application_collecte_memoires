@@ -24,7 +24,6 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep }) {
     }
     const currentQuestion = questions[currentQuestionId]
 
-
     return (
         <>
             <h1>

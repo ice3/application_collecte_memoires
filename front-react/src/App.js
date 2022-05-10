@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 
 
 function App() {
-  const [globalStep, _setGlobalStep] = useState(0);
+  const [globalStep, _setGlobalStep] = useState(4);
   const [useVideo, setUseVideo] = useState(true);
   const setGlobalStep = (step_number) => { _setGlobalStep(step_number % steps.length) }
   const nextGlobalStep = () => { setGlobalStep(globalStep + 1) }

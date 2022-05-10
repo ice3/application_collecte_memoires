@@ -14,7 +14,7 @@ const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording,
         console.log("start capture")
         setCapturing(true);
         mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-            mimeType: "video/webm"
+            mimeType: "video/webm; codecs=vp9"
         });
         mediaRecorderRef.current.addEventListener(
             "dataavailable",

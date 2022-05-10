@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import FormulaireNumerique from './id_numeric';
 import FormulairePapier from './id_paper';
+import UserInfos from "../elements/userInfos";
 
 function IdentificationFormSelection({ handleNextGlobalStep }) {
     const [isFormulaireChosen, setIsFormulaireChosen] = useState(false)
     const [isFormaulaireNumerique, setIsFormaulaireNumerique] = useState(false)
-
+    const [userInfos, setUserInfos] = useState({})
+    const [allFieldsFilled, setAllFieldsFilled] = useState(false)
 
     let Formulaire = undefined
     if (isFormulaireChosen) {
@@ -18,26 +20,31 @@ function IdentificationFormSelection({ handleNextGlobalStep }) {
 
     }
 
-    //  pour le clavier 
-    // https://hodgef.com/simple-keyboard/getting-started/react/
-    // https://hodgef.com/simple-keyboard/editor/?d=hodgef/simple-keyboard-layouts-demos/tree/french
-
     return (
         <>
-            <div>Choix du formulaire d'identification</div>
+            <h1>Choix du formulaire d'identification</h1>
+
+            {isFormulaireChosen ? "" :
+                <UserInfos
+                    userInfos={userInfos}
+                    setUserInfos={setUserInfos}
+                    allFieldsFilled={allFieldsFilled}
+                    setAllFieldsFilled={setAllFieldsFilled}
+                />
+            }
 
 
-
-            {isFormulaireChosen ? <Formulaire handleNextGlobalStep={handleNextGlobalStep} /> : <>
-                <button onClick={() => {
-                    setIsFormaulaireNumerique(false)
-                    setIsFormulaireChosen(true)
-                }}>Formulaire papier</button>
-                <button onClick={() => {
-                    setIsFormaulaireNumerique(true)
-                    setIsFormulaireChosen(true)
-                }}>Formulaire numérique</button>
-            </>
+            {isFormulaireChosen ? <Formulaire handleNextGlobalStep={handleNextGlobalStep} /> :
+                allFieldsFilled ? <>
+                    <button onClick={() => {
+                        setIsFormaulaireNumerique(false)
+                        setIsFormulaireChosen(true)
+                    }}>Formulaire papier</button>
+                    <button onClick={() => {
+                        setIsFormaulaireNumerique(true)
+                        setIsFormulaireChosen(true)
+                    }}>Formulaire numérique</button>
+                </> : ""
             }
 
         </>

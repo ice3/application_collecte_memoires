@@ -30,7 +30,7 @@ function Question({ question, handleNextQuestion, shouldUseVideo, step, numberOf
                 setIsRecording(false)
                 setStartRecording(false)
                 setStopRecording(true)
-            }, question.secondsDuration * 1000
+            }, (question.secondsDuration * 1000 + DELAY_BEFORE_RECORD * 1000)
         )
         return [recordStartTimer, recordStopTimer]
     }
@@ -68,7 +68,7 @@ function Question({ question, handleNextQuestion, shouldUseVideo, step, numberOf
             {recordingCountdown}
 
             <WebcamStreamCapture startRecording={startRecording} stopRecording={stopRecording} isValid={isValid} />
-            {step < numberOfQuestions ?
+            {step <= numberOfQuestions ?
                 <>
                     <NextStepButton handleNext={handleNextQuestion} label={"Question suivante"} />
                     <NextStepButton handleNext={() => {

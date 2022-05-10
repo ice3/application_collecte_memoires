@@ -1,10 +1,10 @@
 import { Component } from "react";
 import ReactPlayer from 'react-player'
 import NextStepButton from "../elements/nextStepButton";
-
+import Button from "../elements/button";
 class VideoPlayer extends Component {
     state = {
-        url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+        url: "videos/video_reencodee.webm",
         playing: true,
         played: 0,
     }
@@ -38,23 +38,24 @@ class VideoPlayer extends Component {
         const { url, playing, played } = this.state
         console.log(played, playing)
         return (
-            <div className='video-presentation'>
-                <section className='section'>
-                    <div className='player-wrapper'>
-                        <ReactPlayer
-                            ref={this.ref}
-                            className='react-player'
-                            width='100%'
-                            played={played}
-                            url={url}
-                            playing={playing}
-                            onEnded={this.handleEnded}
-                        />
-                    </div>
-                    <button onClick={this.handleReplay}>Relancer la vidéo</button>
+            <>
+                <div className='video-presentation'>
+                    <ReactPlayer
+                        ref={this.ref}
+                        className='react-player'
+                        width='100%'
+                        height='100%'
+                        played={played}
+                        url={url}
+                        playing={playing}
+                        onEnded={this.handleEnded}
+                    />
+                </div>
+                <div class="controls">
+                    <Button label="Relancer la vidéo" handleClick={this.handleReplay}></Button>
                     <NextStepButton handleNext={this.props.handleNextGlobalStep} label={"Etape suivante"} />
-                </section>
-            </div>
+                </div>
+            </>
         )
     }
 }

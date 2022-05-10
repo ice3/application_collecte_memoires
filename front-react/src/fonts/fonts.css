@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'bahnschrift';
+    src: url('./bahnschrift.ttf') format('truetype'),
+}
+
+@font-face {
+    font-family: 'intro';
+    src: url('./regular.ttf') format('truetype'),
+}

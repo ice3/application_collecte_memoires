@@ -2,13 +2,13 @@ import React from "react";
 import { findAllInRenderedTree } from "react-dom/test-utils";
 import Webcam from "react-webcam";
 
+let isDownloading = false
+
 const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording, stopRecording }) => {
     const webcamRef = React.useRef(null);
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false)
     const [recordedChunks, setRecordedChunks] = React.useState([])
-
-    console.log("is valid", isValid, recordedChunks, !capturing)
 
     const handleStartCaptureClick = React.useCallback(() => {
         console.log("start capture")
@@ -34,12 +34,15 @@ const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording,
 
     const handleStopCaptureClick = React.useCallback(() => {
         console.log("stopped capture")
-        mediaRecorderRef.current.stop();
+        if (mediaRecorderRef.current.state !== "inactive") {
+            mediaRecorderRef.current.stop();
+        }
         setCapturing(false);
     }, [mediaRecorderRef, webcamRef, setCapturing]);
 
     const handleDownload = React.useCallback(() => {
         if (recordedChunks.length) {
+            isDownloading = true
             console.log("downloading")
             const blob = new Blob(recordedChunks, {
                 type: "video/webm"
@@ -54,7 +57,8 @@ const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording,
             window.URL.revokeObjectURL(url);
             setRecordedChunks([]);
         }
-    }, [recordedChunks]);
+        isDownloading = false
+    }, [recordedChunks, setRecordedChunks]);
 
     if (startRecording && !capturing) {
         console.log("click start capture")

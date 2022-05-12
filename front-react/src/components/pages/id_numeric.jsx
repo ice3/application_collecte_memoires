@@ -3,16 +3,32 @@ import NextStepButton from "../elements/nextStepButton"
 import { marked } from "marked";
 import { useEffect, useState } from "react";
 import Signature from "../elements/signature";
+import Handlebars from 'handlebars/dist/cjs/handlebars';
 
-function FormulaireNumerique({ handleNextGlobalStep }) {
+
+function FormulaireNumerique({ handleNextGlobalStep, userData }) {
     const [markdownTemplate, setMarkdowntemplate] = useState('')
+    const [validated, setValidated] = useState(false)
+    const [signed, setSigned] = useState(false)
     useEffect(() => {
         const readmePath = require("../../documents/formulaire_consentement.md");
 
         fetch(readmePath).then(response => {
             return response.text()
         }).then(text => {
-            setMarkdowntemplate(marked(text))
+            const now = new Date()
+            const date = now.toISOString().split('T')[0]
+
+            const template = Handlebars.compile(text)
+            const hydrated_text = template({
+                name: userData.name,
+                address: userData.address,
+                phone: userData.phone,
+                email: userData.email,
+                lieu: userData.lieu,
+                date: date
+            })
+            setMarkdowntemplate(marked(hydrated_text))
         })
     }, []
     )
@@ -29,10 +45,10 @@ function FormulaireNumerique({ handleNextGlobalStep }) {
             <div class="formulaire-consentement" dangerouslySetInnerHTML={{ __html: markdownTemplate }}>
             </div>
 
-            <button>En cliquant ici j'accepte les conditions proposées</button>
-            <Signature />
+            <button onClick={event => setValidated(true)}>En cliquant ici j'accepte les conditions proposées</button>
+            <Signature onSaved={() => setSigned(true)} />
 
-            <NextStepButton handleNext={handleNextGlobalStep} label="Etape suivante" />
+            {validated && signed ? <NextStepButton handleNext={handleNextGlobalStep} label="Etape suivante" /> : ""}
 
         </div >
     )

@@ -76,7 +76,10 @@ h1, h2 {
   height: 600px;
   width: 60%;
   overflow-y: auto;
+}
 
+.sigCanvas {
+  background-color: white;
 }
 
 /* ligne graphique */

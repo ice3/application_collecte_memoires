@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import SignatureCanvas from 'react-signature-canvas'
 
-function Signature() {
+function Signature({ onSaved }) {
     let canvasRef = useRef()
     return (
         <div>
@@ -11,18 +11,19 @@ function Signature() {
                     canvasRef.clear();
                 }}
             >
-                Erase
+                Effacer
             </button>
 
             <button
                 onClick={() => {
-                    console.log(
-                        canvasRef.toDataURL());
+                    console.log(canvasRef.toDataURL());
+                    onSaved()
                 }}
+
             >
-                GetDataURL
+                Valider
             </button>
-            <SignatureCanvas penColor='green'
+            <SignatureCanvas penColor='darkblue'
                 canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
                 ref={(ref) => { canvasRef = ref }} />
 

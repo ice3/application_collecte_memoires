@@ -34,7 +34,7 @@ function IdentificationFormSelection({ handleNextGlobalStep }) {
             }
 
 
-            {isFormulaireChosen ? <Formulaire handleNextGlobalStep={handleNextGlobalStep} /> :
+            {isFormulaireChosen ? <Formulaire handleNextGlobalStep={handleNextGlobalStep} userData={userInfos} /> :
                 allFieldsFilled ? <>
                     <button onClick={() => {
                         setIsFormaulaireNumerique(false)

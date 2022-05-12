@@ -81,6 +81,7 @@ function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled
                         value={getInputValue("name")}
                         onFocus={() => setInputName("name")}
                         placeholder={"Name"}
+                        autoComplete="off"
                         onChange={onChangeInput}
 
                     />
@@ -97,6 +98,7 @@ function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled
                         value={getInputValue("address")}
                         onFocus={() => setInputName("address")}
                         placeholder={"Adresse"}
+                        autoComplete="off"
                     />
                 </label>
             </div>
@@ -110,6 +112,7 @@ function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled
                         value={getInputValue("phone")}
                         onFocus={() => setInputName("phone")}
                         placeholder={"Téléphone"}
+                        autoComplete="off"
                     />
                 </label>
             </div>
@@ -123,6 +126,7 @@ function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled
                         value={getInputValue("email")}
                         onFocus={() => setInputName("email")}
                         placeholder={"Courriel"}
+                        autoComplete="off"
 
                     />
                 </label>

@@ -1,4 +1,4 @@
-# Contrat de cession de droits d'auteur sur les témoignages enregistrés dans le cadre de l'exposition « « Migrations, une archéologie des échanges »
+# Contrat de cession de droits d'auteur sur les témoignages enregistrés dans le cadre de l'exposition « Migrations, une archéologie des échanges »
 
 
 Entre Le Département du Pas-de-Calais, représenté par le Président du Conseil départemental, Monsieur Jean-Claude
@@ -9,10 +9,10 @@ d'une part, dénommé ci-après le Département
 
 et
 
-Monsieur, Madame : {{ name }}
-Adresse : {{ address }}
-Téléphone : {{ phone}}
-Courriel : {{ email }}
+* Monsieur, Madame : {{ name }}
+* Adresse : {{ address }}
+* Téléphone : {{ phone}}
+* Courriel : {{ email }}
 
 ci-après dénommé le témoin.
 

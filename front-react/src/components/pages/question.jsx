@@ -3,10 +3,12 @@ import NextStepButton from "../elements/nextStepButton"
 import CountdownRecording from "../elements/countdownRecording"
 import { useState, useEffect } from "react"
 
+import { sendAnswerMedia } from "../../network_operations"
+
 const DELAY_BEFORE_RECORD = 3
 
 
-function Question({ question, handleNextQuestion, shouldUseVideo, step, numberOfQuestions }) {
+function Question({ question, handleNextQuestion, shouldUseVideo, step, numberOfQuestions, memoryUUID }) {
     const [startRecording, setStartRecording] = useState(false)
     const [stopRecording, setStopRecording] = useState(false)
     const [isPreparingForRecord, setIsPreparingForRecord] = useState(true)
@@ -46,6 +48,16 @@ function Question({ question, handleNextQuestion, shouldUseVideo, step, numberOf
     }, []);
 
 
+    const handleIsValid = (memoryUUID, streamBlob) => {
+        
+          try {
+            sendAnswerMedia(memoryUUID, question.uuid, streamBlob)
+          } catch (err) {
+            console.log(err.response.data.errors);
+          }
+        
+    }
+
     const prepareForRecordCountdown = isPreparingForRecord ?
         <CountdownRecording duration={DELAY_BEFORE_RECORD} /> : ""
 
@@ -67,7 +79,7 @@ function Question({ question, handleNextQuestion, shouldUseVideo, step, numberOf
             {prepareForRecordCountdown}
             {recordingCountdown}
 
-            <WebcamStreamCapture startRecording={startRecording} stopRecording={stopRecording} isValid={isValid} />
+            <WebcamStreamCapture startRecording={startRecording} stopRecording={stopRecording} isValid={isValid} handleIsValid={blob => handleIsValid(memoryUUID, blob)} />
             {step <= numberOfQuestions ?
                 <>
                     <NextStepButton handleNext={handleNextQuestion} label={"Question suivante"} />

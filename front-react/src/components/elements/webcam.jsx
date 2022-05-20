@@ -4,7 +4,7 @@ import Webcam from "react-webcam";
 
 let isDownloading = false
 
-const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording, stopRecording }) => {
+const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording, stopRecording, handleIsValid }) => {
     const webcamRef = React.useRef(null);
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false)
@@ -14,7 +14,7 @@ const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording,
         console.log("start capture")
         setCapturing(true);
         mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-            mimeType: "video/webm; codecs=vp9"
+            mimeType: "audio/webm;codecs=opus"
         });
         mediaRecorderRef.current.addEventListener(
             "dataavailable",
@@ -47,18 +47,11 @@ const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording,
             const blob = new Blob(recordedChunks, {
                 type: "video/webm"
             });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            a.href = url;
-            a.download = "react-webcam-stream-capture.webm";
-            a.click();
-            window.URL.revokeObjectURL(url);
+            handleIsValid(blob)
             setRecordedChunks([]);
         }
         isDownloading = false
-    }, [recordedChunks, setRecordedChunks]);
+    }, [recordedChunks, setRecordedChunks, isDownloading]);
 
     if (startRecording && !capturing) {
         console.log("click start capture")

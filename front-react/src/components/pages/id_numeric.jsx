@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import Signature from "../elements/signature";
 import Handlebars from 'handlebars/dist/cjs/handlebars';
 
+import { sendSignature } from "../../network_operations";
 
-function FormulaireNumerique({ handleNextGlobalStep, userData }) {
+function FormulaireNumerique({ handleNextGlobalStep, userData, memoryUUID }) {
     const [markdownTemplate, setMarkdowntemplate] = useState('')
     const [validated, setValidated] = useState(false)
     const [signed, setSigned] = useState(false)
@@ -34,7 +35,6 @@ function FormulaireNumerique({ handleNextGlobalStep, userData }) {
     )
 
 
-
     return (
         <div>
             <h1>
@@ -46,7 +46,10 @@ function FormulaireNumerique({ handleNextGlobalStep, userData }) {
             </div>
 
             <button onClick={event => setValidated(true)}>En cliquant ici j'accepte les conditions proposées</button>
-            <Signature onSaved={() => setSigned(true)} />
+            <Signature onSaved={(dataUrl) => {
+                setSigned(true);
+                sendSignature(memoryUUID, dataUrl)
+            }} />
 
             {validated && signed ? <NextStepButton handleNext={handleNextGlobalStep} label="Etape suivante" /> : ""}
 

@@ -17,7 +17,7 @@ function Signature({ onSaved }) {
             <button
                 onClick={() => {
                     console.log(canvasRef.toDataURL());
-                    onSaved()
+                    onSaved(canvasRef.toDataURL())
                 }}
 
             >

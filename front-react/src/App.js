@@ -7,29 +7,42 @@ import RecordMemories from './components/pages/questions';
 import IdentificationFormSelection from './components/pages/id_form';
 import Thanks from './components/pages/thanks';
 
-import React, { useState } from 'react';
+import { createNewMemoryAndGetUUID, postUseVideo } from './network_operations';
+import React, { useState, useEffect } from 'react';
 
 
 function App() {
-  const [globalStep, _setGlobalStep] = useState(4);
+  const [globalStep, _setGlobalStep] = useState(0);
   const [useVideo, setUseVideo] = useState(true);
+  const [memoryUUID, setMemoryUUID] = useState("");
   const setGlobalStep = (step_number) => { _setGlobalStep(step_number % steps.length) }
   const nextGlobalStep = () => { setGlobalStep(globalStep + 1) }
 
 
+
+  useEffect(() => {
+      console.log("use effect")
+      createNewMemoryAndGetUUID(setMemoryUUID)
+  }, []);
+
+
   const steps = [
     { name: "Vidéo de présentation", component: <VideoPlayer /> },
-    { name: "Audio ou vidéo", component: < AudioOrVideo handleAudioOrVideo={(useVideo) => { setUseVideo(useVideo) }} /> },
+    { name: "Audio ou vidéo", component: < AudioOrVideo handleAudioOrVideo={(useVideo) => { setUseVideo(useVideo); postUseVideo(useVideo, memoryUUID) }} /> },
     { name: "Réglage de la hauteur", component: <SetChair shouldUseVideo={useVideo} /> },
     { name: "Capture des mémoires", component: <RecordMemories shouldUseVideo={useVideo} /> },
     { name: "Formulaire d'identification", component: <IdentificationFormSelection /> },
     { name: "Remerciements", component: < Thanks /> }
   ]
 
+  if (memoryUUID && memoryUUID.length === 0){
+    return ""
+  }
+
   return (
     React.cloneElement(
       steps[globalStep].component,
-      { "handleNextGlobalStep": nextGlobalStep }
+      { "handleNextGlobalStep": nextGlobalStep,  "memoryUUID":memoryUUID}
     )
   );
 }

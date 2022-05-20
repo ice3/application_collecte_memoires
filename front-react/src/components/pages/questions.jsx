@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import NextStepButton from "../elements/nextStepButton"
 import Question from './question';
 
-const questions = [
-    { secondsDuration: 10, value: "Nous souhaitons mieux vous connaître, pourriez-vous vous présenter rapidement ? Et nous dire de qui vous allez parler ?" },
-    { secondsDuration: 10, value: " Choisissez un moment marquant de votre migration : votre départ, votre voyage ou votre arrivée. Décrivez-le-nous ?" },
-    { secondsDuration: 10, value: "Si vous deviez citer un seul objet, symbole ou souvenir qui serait caractéristique de votre témoignage, ce serait lequel ? et pourquoi ?" },
-]
+import { fetchQuestions } from '../../network_operations';
 
-function RecordMemories({ shouldUseVideo, handleNextGlobalStep }) {
-    const questionsNb = questions.length
+function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
     const [currentQuestionId, setQuestionStep] = useState(0)
     const [questionsOver, setQuestionsOver] = useState(false)
+    const [questions, setQuestions] = useState([])
+
+
+    useEffect(() => {
+        console.log("use effect")
+        fetchQuestions(setQuestions)
+    }, []);
+
     const nextQuestion = () => {
         if (currentQuestionId < questionsNb - 1) {
             setQuestionStep(currentQuestionId + 1)
@@ -22,6 +25,13 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep }) {
             setQuestionsOver(true)
         }
     }
+
+    console.log(questions, questions.length === 0)
+    if (questions.length === 0){
+        return ""
+    }
+    
+    const questionsNb = questions.length
     const currentQuestion = questions[currentQuestionId]
 
     return (
@@ -37,6 +47,7 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep }) {
                 numberOfQuestions={questionsNb}
                 handleNextQuestion={nextQuestion}
                 key={currentQuestionId}
+                memoryUUID={memoryUUID}
             />
 
             {

@@ -2,6 +2,8 @@ from django.utils import timezone
 from django.db import models
 import uuid
 from django.conf import settings
+from django.utils.text import slugify
+import os
 
 
 # Create your models here.
@@ -59,6 +61,14 @@ class Answer(models.Model):
     def terminate(self):
         self.terminated = True
         self.end_time = timezone.now()
+
+        new_directory_name = (
+            settings.BASE_MEDIAS
+            / str(timezone.now().date())
+            / f"{slugify(self.user_name)}_{uuid.uuid4().hex[:4].upper()}"
+        )
+        os.rename(self.recordings.first().directory_name, new_directory_name)
+        self.recordings.update(directory_name=new_directory_name)
         self.save()
 
 
@@ -67,7 +77,8 @@ class Recording(models.Model):
     RECORDING_TYPE_AUDIO = 1
 
     date = models.DateTimeField(auto_now_add=True, blank=True)
-    path_to_media = models.CharField(max_length=250, null=True, editable=False)
+    directory_name = models.CharField(max_length=250, null=True, editable=False)
+    file_name = models.CharField(max_length=250, null=True, editable=False)
     recording_type = models.SmallIntegerField(
         choices=((RECORDING_TYPE_VIDEO, "video"), (RECORDING_TYPE_AUDIO, "audio"))
     )

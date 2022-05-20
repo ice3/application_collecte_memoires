@@ -31,8 +31,10 @@ def answer_to_question(request, answer_uuid, question_uuid):
     date = timezone.now().date()
     folder_name = settings.BASE_MEDIAS / str(date) / str(answer_uuid)
     folder_name.mkdir(exist_ok=True, parents=True)
-    file_name = folder_name / f"question-{question.order}.webm"
-    print("creating", file_name)
+    extension = "webm"
+    file_name = f"question-{question.order}.{extension}"
+    path = folder_name / file_name
+    print("creating", path)
     recording_type = None
 
     if request.FILES["media"].content_type == "video/webm":
@@ -42,13 +44,14 @@ def answer_to_question(request, answer_uuid, question_uuid):
     else:
         print("AAAAAAAAAA", "unknown content type", request.FILES["media"].content_type)
 
-    with open(file_name, "wb+") as f:
+    with open(path, "wb+") as f:
         for chunk in request.FILES.get("media").chunks():
             f.write(chunk)  # so, just read it from the request
 
     Recording.objects.create(
         recording_type=recording_type,
-        path_to_media=file_name,
+        directory_name=folder_name,
+        file_name=file_name,
         answer=answer,
         question=question,
     )

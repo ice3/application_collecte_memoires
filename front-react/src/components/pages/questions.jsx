@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import NextStepButton from "../elements/nextStepButton"
+import {Button, ButtonNegative, ButtonPositive} from "../elements/button"
 import Question from './question';
 
 import { fetchQuestions } from '../../network_operations';
@@ -12,7 +12,6 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
 
 
     useEffect(() => {
-        console.log("use effect")
         fetchQuestions(setQuestions)
     }, []);
 
@@ -35,9 +34,9 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
     const currentQuestion = questions[currentQuestionId]
 
     return (
-        <>
-            <h1>
-                Les questions
+        <div className="container">
+            <h1 className="texte-left full-width">
+                Question {currentQuestionId + 1} / {questionsNb}
             </h1>
 
             <Question
@@ -48,16 +47,10 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
                 handleNextQuestion={nextQuestion}
                 key={currentQuestionId}
                 memoryUUID={memoryUUID}
+                questionsOver={questionsOver}
+                handleNextGlobalStep={handleNextGlobalStep}
             />
-
-            {
-                questionsOver ?
-                    <div>
-                        <NextStepButton handleNext={handleNextGlobalStep} label="Etape suivante" />
-                    </div>
-                    : ""
-            }
-        </>
+        </div>
     )
 }
 

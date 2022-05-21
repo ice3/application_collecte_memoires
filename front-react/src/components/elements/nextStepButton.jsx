@@ -1,7 +1,7 @@
 
-function NextStepButton({ handleNext, label }) {
+function NextStepButton({ handleNext, label, extraClass }) {
     return (
-        <a onClick={handleNext} class="button">{label}</a>
+        <button className={["button", extraClass].join(" ")}  onClick={handleNext} >{label}</button>
     )
 }
 

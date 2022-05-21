@@ -13,21 +13,23 @@ const renderText = ({ remainingTime, label }) => {
     );
 };
 
-function CountdownRecording({ duration, label }) {
-    console.log("timer for", duration)
+function CountdownRecording({ duration, label, children }) {
     return (
         <div className="timer-wrapper">
+            <div>{children}</div>
+            <div className='indicator'>
             <CountdownCircleTimer
                 isPlaying
                 duration={duration}
                 colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
                 colorsTime={[10, 6, 3, 0]}
                 onComplete={() => ({ shouldRepeat: false, delay: 1 })}
-                size={48}
+                size={60}
                 strokeWidth={5}
-            >
+                >
                 {({ remainingTime, elapsedTime, color }) => renderText(remainingTime, elapsedTime, color, label)}
             </CountdownCircleTimer>
+                </div>
         </div>
     );
 }

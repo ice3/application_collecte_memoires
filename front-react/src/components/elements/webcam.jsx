@@ -4,7 +4,7 @@ import Webcam from "react-webcam";
 
 let isDownloading = false
 
-const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording, stopRecording, handleIsValid }) => {
+const WebcamStreamCapture = ({ isValid, shouldDisplayVideo, startRecording, stopRecording, handleIsValid, children}) => {
     const webcamRef = React.useRef(null);
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false)
@@ -70,16 +70,23 @@ const WebcamStreamCapture = ({ isValid, url, shouldDisplayVideo, startRecording,
 
 
     return (
-        <>
+        <div className="retour-video">
             {shouldDisplayVideo ?
-                <Webcam
+                (<div className="video">
+                    <Webcam
+                    className='video-canvas'
                     audio={true}
                     ref={webcamRef}
                     onUserMediaError={e => console.error("Couldn't capture media devices", e)}
                     onUserMedia={e => console.log("Could capture media device", e)}
-                /> : ""
+                    />
+                <div className="indicateur">
+                    {children}
+                </div>
+                    </div>
+                 ) : ""
             }
-        </>
+        </div>
     );
 };
 

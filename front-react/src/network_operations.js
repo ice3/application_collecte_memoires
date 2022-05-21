@@ -7,7 +7,7 @@ const parseQuestions = (response) => {
     for (const index in JSON.parse(response.data.questions)){
         const fields = JSON.parse(response.data.questions)[index].fields 
         const translatedFields = {
-            secondsDuration: fields.duration_in_seconds, 
+            secondsDuration: 10, 
             value: fields.text, 
             uuid: fields.uuid
         }

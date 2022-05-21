@@ -1,59 +1,152 @@
-body {
+:root {
+  --main-bg-color: #EBEBF4;
+  --main-button-bg-positive: #bdcc72;
+  --main-button-bg-negative: #f68fa0;
+  --main-button-bg-neutral: #93b9dc;
+}
+
+
+body{
+  background-color: var(--main-bg-color);  
   font-family: "bahnschrift", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 32pt;
-  background-color: #ead8c0;
+
+  width: 99vw;
+  height: 98vh;
+
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.container{
+  min-width: 50vw;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 10px; 
+  padding: 10px;
+}
+
+.button{
+  width : 100%;
+  height : 50px;
+  margin : 15px;
+  border : none;
+  border-radius : 5px;
+  color: #ededed;
+  transition : background-color ease-in-out 0.5s; 
+  font-size: 25px;
+  box-shadow: 7px 6px 6px 1px rgb(50 50 93 / 11%);
+  max-width: 300px;
+}
+.btn-positive{
+  background-color : var(--main-button-bg-positive) ;
+}
+.btn-negative{
+  background-color :  var(--main-button-bg-negative) ;
+}
+.btn-neutral{
+  background-color :  var(--main-button-bg-neutral) ;
+}
+button:hover{
+  background-color : transparent ;
+}
+.btn-positive:hover {
+  border : 1px solid   var(--main-button-bg-positive) ;
+  color :  var(--main-button-bg-positive) ;
+}
+.btn-negative:hover{
+  border : 1px solid   var(--main-button-bg-negative) ;
+  color :  var(--main-button-bg-negative) ;
+}
+.btn-neutral:hover{
+  border : 1px solid   var(--main-button-bg-neutral) ;
+  color :  var(--main-button-bg-neutral) ;
+}
+
+
+
 
 h1, h2 {
   font-family: "intro", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 48pt;
+  margin-bottom: 20px;
 }
 
+
 .video-presentation {
-  height: 80vh;
+  height: 65vh;
 }
+
 
 .controls {
   display: flex;
-  margin: auto;
+  margin: 30px;
+  width: 70%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.question{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+
+}
+
+.question-text {
+  margin: 40px;
+}
+.enregistrement{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px;
+}
+
+.timer-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.indicator {
+  position: relative; 
+  top: -150px;
+}
+
+.indicateur {
+  text-align: center;
+  position: absolute;
   width: 100%;
 }
 
-.button {
-  white-space: nowrap;
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 30px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
-  background: #fff;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .025em;
-  color: #555;
-  text-decoration: none;
-  -webkit-transition: all .15s ease;
-  transition: all .15s ease;
-  font-family: "Abel";
+.video {
+  height: 50vh;
 }
 
-.button:hover {
-  color: #6e6e6e;
-  transform: translateY(-1px);
-  box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
-}
-
-.button:active {
-  color: #555;
-  background-color: #f6f9ff;
-  transform: translateY(1px);
-  box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+.video-canvas {
+  height: 90%;
 }
 
 .react-simple-keyboard {
@@ -82,6 +175,31 @@ h1, h2 {
   background-color: white;
 }
 
+.absolute{
+  position: absolute
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+  left: 1em;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.full-width {
+  width: 100%;
+}
+
 /* ligne graphique */
 /* bleu1 #282d66
 bleu2: #383b90
@@ -90,3 +208,4 @@ vert1: #80b1a3
 vert2: #c6e0bc
 or: #dec470
 saumon: #ead8c0 */
+

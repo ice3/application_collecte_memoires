@@ -5,7 +5,7 @@ import french from "simple-keyboard-layouts/build/layouts/french";
 
 
 
-function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled }) {
+function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled, section }) {
     const [inputName, setInputName] = useState("firstName");
     const [layoutName, setLayoutName] = useState("default");
     const [isCaps, setIsCaps] = useState(false);
@@ -71,7 +71,7 @@ function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled
     }
 
     return (
-        <div className="App">
+        <div className="user-infos-form">
             <div>
                 <label>
                     Nom et prénom :
@@ -83,7 +83,6 @@ function FrenchKeyboard({ inputs, setInputs, allFieldsFilled, setAllFieldsFilled
                         placeholder={"Name"}
                         autoComplete="off"
                         onChange={onChangeInput}
-
                     />
                 </label>
             </div>

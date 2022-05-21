@@ -4,7 +4,10 @@ import uuid
 from django.conf import settings
 from django.utils.text import slugify
 import os
+from pathlib import Path
+from .docx_utils import generate_contract_for_user
 
+# import image_utils
 
 # Create your models here.
 class Question(models.Model):
@@ -58,10 +61,7 @@ class Answer(models.Model):
         if save:
             self.save()
 
-    def terminate(self):
-        self.terminated = True
-        self.end_time = timezone.now()
-
+    def rename_captures_folder(self):
         new_directory_name = (
             settings.BASE_MEDIAS
             / str(timezone.now().date())
@@ -69,6 +69,48 @@ class Answer(models.Model):
         )
         os.rename(self.recordings.first().directory_name, new_directory_name)
         self.recordings.update(directory_name=new_directory_name)
+
+    def generate_pdf_contract(self):
+        directory_name = self.recordings.first().directory_name
+        template_path = (
+            Path(settings.BASE_DIR)
+            / ".."
+            / ".."
+            / "documents"
+            / "template_contrat.docx"
+        ).resolve()
+        output_path = Path(directory_name) / "contract.docx"
+        generate_contract_for_user(
+            template_path, self, "12 mai 20221", "Lille", output_path
+        )
+
+    def generate_informations(self):
+        """Generate a 'readme' with all the informations"""
+        directory_name = self.recordings.first().directory_name
+        template = f"""
+Mémoires ({self.get_recording_type_display()}) capturées entre {self.start_time:%m/%d/%Y-%H:%M:%S} et {self.end_time:%m/%d/%Y-%H:%M:%S}.
+----------
+Type de formulaire : {self.get_form_type_display()}. 
+Nom du témoin : {self.user_name}
+Email du témoin : {self.user_email}
+Adresse du témoin : {self.user_postal_address}
+Téléphone du témoin : {self.user_phone}
+----------"""
+        for recording in self.recordings.all():
+            template += f"""
+Question : {recording.question.text}
+Le : {recording.date:%m/%d/%Y-%H:%M:%S}
+Fichier : {recording.file_name}
+            """
+        open(Path(directory_name) / "informations.txt", "w").write(template)
+
+    def terminate(self):
+        self.terminated = True
+        self.end_time = timezone.now()
+
+        self.rename_captures_folder()
+        self.generate_pdf_contract()
+        self.generate_informations()
         self.save()
 
 
@@ -88,4 +130,3 @@ class Recording(models.Model):
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name="recordings"
     )
-

@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_MEDIAS = BASE_DIR / "memoires"
+BASE_MEDIAS = BASE_DIR / ".." / ".." / "enregistrements"
 BASE_MEDIAS.mkdir(exist_ok=True, parents=True)
 
 # Quick-start development settings - unsuitable for production

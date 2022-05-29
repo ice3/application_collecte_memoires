@@ -1,4 +1,4 @@
-# Contrat de cession de droits d'auteur sur les témoignages enregistrés dans le cadre de l'exposition « Migrations, une archéologie des échanges »
+## Contrat de cession de droits d'auteur sur les témoignages enregistrés dans le cadre de l'exposition « Migrations, une archéologie des échanges »
 
 
 Entre Le Département du Pas-de-Calais, représenté par le Président du Conseil départemental, Monsieur Jean-Claude
@@ -17,11 +17,11 @@ et
 ci-après dénommé le témoin.
 
 
-## Objet
+### Objet
 
 Dans le cadre de l'exposition « Migrations, une archéologie des échanges » les visiteurs seront invités à filmer leurs propres témoignages qui seront utilisés ensuite par le Département pour alimenter l'exposition. Cette convention autorise le Département à exploiter ces témoignages pour des usages non commerciaux. 
 
-## Droits cédés
+### Droits cédés
 L'auteur cède au département les droits patrimoniaux sur le témoignage, c'est-à-dire :
 
 * Le droit de reproduction. Les témoignages pourront être reproduits et fixés sur différents support (textes, photographies, vidéos …) et être intégrés dans des œuvres composites.
@@ -29,21 +29,21 @@ L'auteur cède au département les droits patrimoniaux sur le témoignage, c'est
 
 La présente convention ne permet aucune exploitation commerciale des témoignages.
 
-## Destination des droits cédés
+### Destination des droits cédés
 
 Ces témoignages seront présentés dans le cadre de l'exposition « Migrations, une archéologie des échanges » sur le site internet [archeologie.pasdecalais.fr]. Ces documents seront conservés par le département et pourront faire l'objet d'une valorisation scientifique, pédagogique et culturelle dans le cadre de projets portés par le Département. Ils seront également mis à disposition pour consultation, diffusion, reproduction, adaptation et représentation.
 
 
-## Durée de la cession
+### Durée de la cession
 
 Les droits sont cédés pour la durée d'existence des droits d'auteur soit 70 ans après la mort de l'auteur.
 
-## Respect des droits d'auteur appartenant à l'interviewer
+### Respect des droits d'auteur appartenant à l'interviewer
 
 La mention du Département du Pas-de-Calais, ainsi que celles du nom du témoin et des interviewers devront apparaître clairement lors de toute exploitation du témoignage et dans la publicité qui pourra l'entourer.
 
 
-## Protection des données à caractère personnel
+### Protection des données à caractère personnel
 
 Les informations recueillies vous concernant dans cette convention font l'objet d'un traitement informatique sécurisé
 par le Département du Pas-de-Calais, auquel vous consentez, destiné à instruire votre entretien filmé lors d'une

@@ -70,14 +70,19 @@ def set_audio_or_video(request, answer_uuid):
 @require_POST
 @csrf_exempt
 def user_infos(request, answer_uuid):
+    """This view can be called 2 times (from user infos and from numeric form)"""
     answer = get_object_or_404(Answer, uuid=answer_uuid)
-    answer.user_email = request.POST.get("user_email")
-    answer.user_name = request.POST.get("user_name")
-    answer.user_postal_address = request.POST.get("user_postal_address")
-    answer.user_phone = request.POST.get("user_phone")
+    answer.user_email = request.POST.get("user_email", answer.user_email)
+    answer.user_name = request.POST.get("user_name", answer.user_name)
+    answer.user_postal_address = request.POST.get(
+        "user_postal_address", answer.user_postal_address
+    )
+    answer.user_phone = request.POST.get("user_phone", answer.user_phone)
+    answer.save()
 
-    is_digital = request.POST.get("isDigital") == "true"
-    answer.set_form_type(is_digital, save=True)
+    if "isDigital" in request.POST:
+        is_digital = request.POST.get("isDigital") == "true"
+        answer.set_form_type(is_digital, save=True)
     return JsonResponse({"status": "ok"})
 
 
@@ -97,4 +102,3 @@ def terminate_memory(request, answer_uuid):
     answer = get_object_or_404(Answer, uuid=answer_uuid)
     answer.terminate()
     return JsonResponse({"status": "ok"})
-

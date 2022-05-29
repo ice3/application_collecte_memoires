@@ -1,35 +1,38 @@
 import React, { useState, useRef } from "react";
-import SignatureCanvas from 'react-signature-canvas'
+import SignatureCanvas from "react-signature-canvas";
+import { ButtonNegative, ButtonPositive } from "../elements/button";
 
 function Signature({ onSaved }) {
-    let canvasRef = useRef()
-    return (
-        <div>
+  let canvasRef = useRef();
+  return (
+    <div className="signature-container">
+      <SignatureCanvas
+        penColor="darkblue"
+        canvasProps={{ width: 550, height: 300, className: "sigCanvas" }}
+        ref={(ref) => {
+          canvasRef = ref;
+        }}
+      />
+      <div>
+        <ButtonNegative
+          handleClick={() => {
+            canvasRef.clear();
+          }}
+        >
+          Effacer
+        </ButtonNegative>
 
-            <button
-                onClick={() => {
-                    canvasRef.clear();
-                }}
-            >
-                Effacer
-            </button>
-
-            <button
-                onClick={() => {
-                    console.log(canvasRef.toDataURL());
-                    onSaved(canvasRef.toDataURL())
-                }}
-
-            >
-                Valider
-            </button>
-            <SignatureCanvas penColor='darkblue'
-                canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
-                ref={(ref) => { canvasRef = ref }} />
-
-        </div>
-    )
-
+        <ButtonPositive
+          handleClick={() => {
+            console.log(canvasRef.toDataURL());
+            onSaved(canvasRef.toDataURL());
+          }}
+        >
+          Valider
+        </ButtonPositive>
+      </div>
+    </div>
+  );
 }
 
-export default Signature
+export default Signature;

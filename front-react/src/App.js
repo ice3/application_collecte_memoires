@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react';
 
 
 function App() {
-  const [globalStep, _setGlobalStep] = useState(3);
+  const [globalStep, _setGlobalStep] = useState(4);
   const [useVideo, setUseVideo] = useState(true);
   const [memoryUUID, setMemoryUUID] = useState("");
   const setGlobalStep = (step_number) => { _setGlobalStep(step_number % steps.length) }

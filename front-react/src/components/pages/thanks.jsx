@@ -1,10 +1,8 @@
-import { terminateMemory } from "../../network_operations"
+import { terminateMemory } from "../../network_operations";
 
-function Thanks({memoryUUID}) {
-    terminateMemory(memoryUUID)
-    return (
-        <div>Merci pour votre participation</div>
-    )
+function Thanks({ memoryUUID }) {
+  terminateMemory(memoryUUID);
+  return <img src="/photos/remerciements.png" alt="image" />;
 }
 
-export default Thanks
+export default Thanks;

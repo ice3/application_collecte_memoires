@@ -18,8 +18,6 @@ function App() {
   const setGlobalStep = (step_number) => { _setGlobalStep(step_number % steps.length) }
   const nextGlobalStep = () => { console.log("next global step"); setGlobalStep(globalStep + 1) }
 
-
-
   useEffect(() => {
       createNewMemoryAndGetUUID(setMemoryUUID)
   }, []);

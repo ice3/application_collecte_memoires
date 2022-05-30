@@ -134,7 +134,10 @@ function Question({
           </div>
 
           <div className={["absolute", recordingCountdownClass].join(" ")}>
-            <CountdownRecording duration={question.secondsDuration}>
+            <CountdownRecording
+              duration={question.secondsDuration}
+              key={recordingCountdownClass}
+            >
               Enregistrement en cours
             </CountdownRecording>
           </div>

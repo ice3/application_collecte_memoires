@@ -8,6 +8,13 @@ class VideoPlayer extends Component {
     played: 0,
   };
 
+  constructor(props) {
+    super(props);
+    this.ref = (player) => {
+      this.player = player;
+    };
+  }
+
   load = (url) => {
     this.setState({
       url,
@@ -26,8 +33,9 @@ class VideoPlayer extends Component {
     this.setState({ played: 0, playing: true });
   };
 
-  ref = (player) => {
-    this.player = player;
+  handleEnd = () => {
+    this.setState({ played: 0, playing: false });
+    this.props.handleNextGlobalStep();
   };
 
   render() {
@@ -50,7 +58,7 @@ class VideoPlayer extends Component {
           <ButtonNeutral handleClick={this.handleReplay}>
             Lancer la vidéo
           </ButtonNeutral>
-          <ButtonPositive handleClick={this.props.handleNextGlobalStep}>
+          <ButtonPositive handleClick={this.handleEnd}>
             Etape suivante
           </ButtonPositive>
         </div>

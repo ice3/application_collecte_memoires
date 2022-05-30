@@ -1,4 +1,6 @@
 back:
+	cd back/collecte_memoires && python manage.py makemigrations;
+	cd back/collecte_memoires && python manage.py migrate;
 	cd back/collecte_memoires && python manage.py runserver
 
 front:

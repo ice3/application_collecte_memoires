@@ -1,12 +1,7 @@
-import NextStepButton from "../elements/nextStepButton"
+import { Button, ButtonNegative, ButtonPositive } from "../elements/button";
 
 function FormulairePapier({ handleNextGlobalStep }) {
-    return (
-        <div>
-            Formulaire papier
-            <NextStepButton handleNext={handleNextGlobalStep} label="Etape suivante" />
-        </div>
-    )
+  handleNextGlobalStep();
 }
 
-export default FormulairePapier
+export default FormulairePapier;

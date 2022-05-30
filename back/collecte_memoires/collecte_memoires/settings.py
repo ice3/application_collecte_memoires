@@ -16,6 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_MEDIAS = BASE_DIR / ".." / ".." / "enregistrements"
 BASE_MEDIAS.mkdir(exist_ok=True, parents=True)
+MEDIA_URL = "/media/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -105,6 +106,7 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+TIME_ZONE = "Europe/Paris"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -120,4 +122,3 @@ CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo )
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo)
-

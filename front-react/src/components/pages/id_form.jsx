@@ -22,13 +22,23 @@ function IdentificationFormSelection({ handleNextGlobalStep, memoryUUID }) {
   }
 
   const notifyBackend = (memoryUUID, isFormulaireNumerique) => {
-    console.log(memoryUUID);
     var formData = new FormData();
-    formData.append("user_name", userInfos.name);
-    formData.append("user_email", userInfos.email);
-    formData.append("user_postal_address", userInfos.address);
-    formData.append("user_phone", userInfos.phone);
-    formData.append("isDigital", isFormulaireNumerique);
+    if (userInfos.name) {
+      formData.append("user_name", userInfos.name);
+    }
+
+    if (userInfos.email) {
+      formData.append("user_email", userInfos.email);
+    }
+    if (userInfos.address) {
+      formData.append("user_postal_address", userInfos.address);
+    }
+    if (userInfos.phone) {
+      formData.append("user_phone", userInfos.phone);
+    }
+    if (isFormulaireNumerique) {
+      formData.append("isDigital", isFormulaireNumerique);
+    }
     sendUserInfos(memoryUUID, formData);
   };
 
@@ -89,7 +99,7 @@ function IdentificationFormSelection({ handleNextGlobalStep, memoryUUID }) {
           handleNextGlobalStep={handleNextGlobalStep}
           userData={userInfos}
           memoryUUID={memoryUUID}
-          notifyBackend={notifyBackend(memoryUUID, isFormulaireNumerique)}
+          notifyBackend={() => notifyBackend(memoryUUID, isFormulaireNumerique)}
         />
       ) : (
         ""

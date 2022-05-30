@@ -27,13 +27,11 @@ function FrenchKeyboard({ inputName, keyboardRef, onChangeAll, children }) {
   };
 
   const handleShift = () => {
-    console.log(layoutName);
     setLayoutName(layoutName === "default" ? "shift" : "default");
     setIsCaps(false);
   };
 
   const handleCaps = () => {
-    console.log(layoutName);
     setLayoutName(layoutName === "default" ? "shift" : "default");
     setIsCaps(!isCaps);
   };

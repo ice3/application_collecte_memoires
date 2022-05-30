@@ -7,7 +7,11 @@ import os
 from pathlib import Path
 from .docx_utils import generate_contract_for_user
 
-# import image_utils
+
+class ContractConfig(models.Model):
+    location = models.TextField(blank=True)
+    html_contract = models.TextField(blank=True)
+
 
 # Create your models here.
 class Question(models.Model):
@@ -15,12 +19,16 @@ class Question(models.Model):
     text = models.TextField(blank=False)
     duration_in_seconds = models.IntegerField(default=60)
     order = models.SmallIntegerField()
+    voiceover = models.FileField(upload_to="questions_voiceover", blank=True)
 
     def __str__(self):
         return f"{self.order} - {self.duration_in_seconds}sec - {self.text:.50}"
 
 
 class Answer(models.Model):
+    FORM_TYPE_PAPER = 0
+    FORM_TYPE_DIGITAL = 1
+
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     start_time = models.DateTimeField(auto_now_add=True, blank=True)
@@ -33,7 +41,9 @@ class Answer(models.Model):
     user_phone = models.CharField(max_length=20, blank=True)
 
     form_type = models.SmallIntegerField(
-        choices=((0, "paper"), (1, "digital")), blank=True, null=True
+        choices=((FORM_TYPE_PAPER, "paper"), (FORM_TYPE_DIGITAL, "digital")),
+        blank=True,
+        null=True,
     )
     accepted_terms_datetime = models.DateTimeField(blank=True, null=True)
     signature = models.TextField()  # stores the base64 image
@@ -71,6 +81,8 @@ class Answer(models.Model):
         self.recordings.update(directory_name=new_directory_name)
 
     def generate_pdf_contract(self):
+        location = ContractConfig.objects.first().location
+        date = f"{timezone.now():%m/%d/%Y-%H:%M:%S}"
         directory_name = self.recordings.first().directory_name
         template_path = (
             Path(settings.BASE_DIR)
@@ -80,9 +92,7 @@ class Answer(models.Model):
             / "template_contrat.docx"
         ).resolve()
         output_path = Path(directory_name) / "contract.docx"
-        generate_contract_for_user(
-            template_path, self, "12 mai 20221", "Lille", output_path
-        )
+        generate_contract_for_user(template_path, self, date, location, output_path)
 
     def generate_informations(self):
         """Generate a 'readme' with all the informations"""
@@ -109,8 +119,9 @@ Fichier : {recording.file_name}
         self.end_time = timezone.now()
 
         self.rename_captures_folder()
-        self.generate_pdf_contract()
-        self.generate_informations()
+        if self.form_type == self.FORM_TYPE_DIGITAL:
+            self.generate_pdf_contract()
+            self.generate_informations()
         self.save()
 
 

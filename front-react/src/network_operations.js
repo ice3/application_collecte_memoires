@@ -1,5 +1,24 @@
-import { GET_QUESTIONS, NEW_MEMORY, build_SET_AUDIO_VIDEO, build_NEW_STREAM, build_SET_USER_INFOS, build_TERMINATE_MEMORY, build_SET_USER_SIGNATURE } from './urls';
+import { BASE_URL, GET_QUESTIONS, NEW_MEMORY,GET_CONTRACT_CONFIG, build_SET_AUDIO_VIDEO, build_NEW_STREAM, build_SET_USER_INFOS, build_TERMINATE_MEMORY, build_SET_USER_SIGNATURE } from './urls';
 import axios from 'axios';
+import Handlebars from "handlebars/dist/cjs/handlebars";
+import { marked } from 'marked';
+
+const hydrateContract = (text, userData, location) => {
+    const now = new Date();
+    const date = now.toISOString().split("T")[0];
+  
+    const template = Handlebars.compile(text);
+    const hydrated_text = template({
+      name: userData.name,
+      address: userData.address,
+      phone: userData.phone,
+      email: userData.email,
+      lieu: location,
+      date: date,
+    });
+    return hydrated_text;
+  };
+  
 
 const parseQuestions = (response) => {
     // utility function for the questions fields translations between back / front
@@ -9,7 +28,9 @@ const parseQuestions = (response) => {
         const translatedFields = {
             secondsDuration: 10, 
             value: fields.text, 
-            uuid: fields.uuid
+            uuid: fields.uuid, 
+            voiceover: `${BASE_URL}/media/${fields.voiceover}`,
+            voiceoverOrig: fields.voiceover
         }
         questions.push(translatedFields)
     }
@@ -21,7 +42,6 @@ const createNewMemoryAndGetUUID = (setData) => {
     // and set the memoryUUID for future use
     axios.post(NEW_MEMORY)
     .then(function (response) {
-        console.log("uuid", response.data.uuid)
         setData(response.data.uuid)
     })
     .catch(function (error) {
@@ -43,7 +63,6 @@ const postUseVideo = (useVideo, memoryUUID) => {
 
 const fetchQuestions = (setData) => {
     // get the question list (already sorted) from the backend
-    console.log("fetching")
     axios.get(GET_QUESTIONS)
     .then(function (response) {
         setData(parseQuestions(response))
@@ -51,6 +70,20 @@ const fetchQuestions = (setData) => {
     .catch(function (error) {
         console.log(error);
     })
+}
+
+const fetchContractConfig = (userData, setData) => {
+    axios.get(GET_CONTRACT_CONFIG)
+    .then((response) => {
+      return response.data
+    })
+    .then((data) => {
+      const text = data.html_contract;
+      const location = data.location;
+      const hydrated_text = hydrateContract(text, userData, location);
+      setData(marked(hydrated_text));
+    });
+
 }
 
 const sendAnswerMedia = (memoryUUID, questionUUID, mediaBlob) => {
@@ -110,4 +143,4 @@ const terminateMemory = (memoryUUID, signature) => {
     })
 }
 
-export {fetchQuestions, createNewMemoryAndGetUUID, postUseVideo, sendAnswerMedia, sendUserInfos, sendSignature, terminateMemory}
+export {fetchQuestions, fetchContractConfig, createNewMemoryAndGetUUID, postUseVideo, sendAnswerMedia, sendUserInfos, sendSignature, terminateMemory}

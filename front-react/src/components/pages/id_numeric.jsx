@@ -2,35 +2,11 @@ import NextStepButton from "../elements/nextStepButton";
 import { marked } from "marked";
 import { useEffect, useState } from "react";
 import Signature from "../elements/signature";
-import Handlebars from "handlebars/dist/cjs/handlebars";
 
 import { UserInfosDigital } from "../elements/userInfos";
 import { sendSignature } from "../../network_operations";
 import { ButtonNeutral, ButtonPositive } from "../elements/button";
-
-const hydrateContract = (userData, setMarkdownTemplate) => {
-  const readmePath = require("../../documents/formulaire_consentement.md");
-
-  fetch(readmePath)
-    .then((response) => {
-      return response.text();
-    })
-    .then((text) => {
-      const now = new Date();
-      const date = now.toISOString().split("T")[0];
-
-      const template = Handlebars.compile(text);
-      const hydrated_text = template({
-        name: userData.name,
-        address: userData.address,
-        phone: userData.phone,
-        email: userData.email,
-        lieu: userData.lieu,
-        date: date,
-      });
-      setMarkdownTemplate(marked(hydrated_text));
-    });
-};
+import { fetchContractConfig } from "../../network_operations";
 
 function FormulaireNumerique({
   handleNextGlobalStep,
@@ -39,6 +15,7 @@ function FormulaireNumerique({
   userInfos,
   setUserInfos,
   allFieldsFilled,
+  notifyBackend,
 }) {
   const [markdownTemplate, setMarkdownTemplate] = useState("");
   const [userInfosFilled, setUserInfosFilled] = useState(false);
@@ -51,14 +28,17 @@ function FormulaireNumerique({
       setUserInfos={setUserInfos}
       allFieldsFilled={allFieldsFilled}
       setAllFieldsFilled={setUserInfosFilled}
+      notifyBackend={notifyBackend}
     ></UserInfosDigital>
   );
 
   const signatureClass = validated ? "visible" : "invisible";
   const conditionsClass = !validated ? "visible" : "invisible";
 
-  if (userInfosFilled) {
-    hydrateContract(userData, setMarkdownTemplate);
+  if (userInfosFilled && !markdownTemplate) {
+    fetchContractConfig(userData, setMarkdownTemplate);
+  }
+  if (markdownTemplate) {
     toRender = (
       <>
         <div

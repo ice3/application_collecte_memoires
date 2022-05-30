@@ -24,7 +24,6 @@ function Signature({ onSaved }) {
 
         <ButtonPositive
           handleClick={() => {
-            console.log(canvasRef.toDataURL());
             onSaved(canvasRef.toDataURL());
           }}
         >

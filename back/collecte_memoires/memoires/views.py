@@ -6,14 +6,20 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils import timezone
+from django.forms.models import model_to_dict
 
-from .models import Answer, Question, Recording
+from .models import Answer, Question, Recording, ContractConfig
 from django.conf import settings
 
 # Create your views here.
 def get_all_questions(request):
     questions = Question.objects.all().order_by("order")
     return JsonResponse({"questions": serializers.serialize("json", questions)})
+
+
+def get_contract_config(request):
+    contract_infos = ContractConfig.objects.first()
+    return JsonResponse(model_to_dict(contract_infos))
 
 
 @require_POST

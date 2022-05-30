@@ -22,7 +22,6 @@ function UserInfosCommon({
      */
     checkAllFilled(["name", "address"]);
     setInputs({ ...inputs });
-    console.log("Inputs changed", inputs);
   };
 
   const onChangeInput = (event) => {
@@ -34,7 +33,6 @@ function UserInfosCommon({
       [inputName]: inputVal,
     });
 
-    console.log("all filled", allFieldsFilled);
     keyboard.current.setInput(inputVal);
   };
 
@@ -105,6 +103,7 @@ function UserInfosDigital({
   setUserInfos,
   allFieldsFilled,
   setAllFieldsFilled,
+  notifyBackend,
 }) {
   const [inputName, setInputName] = useState("phone");
   const [internalAllFilled, setInternalAllFilled] = useState(false);
@@ -120,19 +119,16 @@ function UserInfosDigital({
      */
     checkAllFilled(["phone", "email"]);
     setInputs({ ...inputs });
-    console.log("Inputs changed", inputs);
   };
 
   const onChangeInput = (event) => {
     checkAllFilled(["phone", "email"]);
     const inputVal = event.target.value;
-
     setInputs({
       ...inputs,
       [inputName]: inputVal,
     });
 
-    console.log("all filled", allFieldsFilled);
     keyboard.current.setInput(inputVal);
   };
 
@@ -188,6 +184,7 @@ function UserInfosDigital({
         <ButtonPositive
           handleClick={() => {
             setAllFieldsFilled(true);
+            notifyBackend();
           }}
         >
           Valider

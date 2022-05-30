@@ -34,21 +34,23 @@ def new_memory(request):
 def answer_to_question(request, answer_uuid, question_uuid):
     question = get_object_or_404(Question, uuid=question_uuid)
     answer = get_object_or_404(Answer, uuid=answer_uuid)
+
+    recording_type = None
+    if request.FILES["media"].content_type == "video/webm":
+        recording_type = Recording.RECORDING_TYPE_VIDEO
+        extension = "webm"
+    elif request.FILES["media"].content_type == "audio/mpeg-3":
+        recording_type = Recording.RECORDING_TYPE_AUDIO
+        extension = "mp3"
+    else:
+        print("AAAAAAAAAA", "unknown content type", request.FILES["media"].content_type)
+
     date = timezone.now().date()
     folder_name = settings.BASE_MEDIAS / str(date) / str(answer_uuid)
     folder_name.mkdir(exist_ok=True, parents=True)
-    extension = "webm"
     file_name = f"question-{question.order}.{extension}"
     path = folder_name / file_name
     print("creating", path)
-    recording_type = None
-
-    if request.FILES["media"].content_type == "video/webm":
-        recording_type = Recording.RECORDING_TYPE_VIDEO
-    elif request.FILES["media"].content_type == "audio/webm":
-        recording_type = Recording.RECORDING_TYPE_AUDIO
-    else:
-        print("AAAAAAAAAA", "unknown content type", request.FILES["media"].content_type)
 
     with open(path, "wb+") as f:
         for chunk in request.FILES.get("media").chunks():

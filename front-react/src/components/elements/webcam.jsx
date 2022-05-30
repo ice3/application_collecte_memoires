@@ -81,6 +81,8 @@ const WebcamStreamCapture = ({
               console.error("Couldn't capture media devices", e)
             }
             onUserMedia={(e) => console.log("Could capture media device", e)}
+            autoplay="true"
+            muted="muted"
           />
           <div className="indicateur">{children}</div>
         </div>

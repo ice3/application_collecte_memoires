@@ -4,8 +4,9 @@ import { ButtonPositive, ButtonNeutral } from "../elements/button";
 class VideoPlayer extends Component {
   state = {
     url: "videos/video_reencodee.webm",
-    playing: true,
+    playing: false,
     played: 0,
+    pip: false,
   };
 
   constructor(props) {
@@ -14,15 +15,6 @@ class VideoPlayer extends Component {
       this.player = player;
     };
   }
-
-  load = (url) => {
-    this.setState({
-      url,
-      played: 0,
-      loaded: 0,
-      pip: false,
-    });
-  };
 
   handlePlayPause = () => {
     this.setState({ playing: !this.state.playing });

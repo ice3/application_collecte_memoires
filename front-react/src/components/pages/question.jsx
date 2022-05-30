@@ -3,10 +3,39 @@ import { Button, ButtonNegative, ButtonPositive } from "../elements/button";
 import CountdownRecording from "../elements/countdownRecording";
 import { useState, useEffect } from "react";
 import useSound from "use-sound";
-
+import Microphone from "../elements/microphone";
 import { sendAnswerMedia } from "../../network_operations";
 
 const DELAY_BEFORE_RECORD = 3;
+
+const MediaRecorder = ({
+  shouldUseVideo,
+  startRecording,
+  stopRecording,
+  isValid,
+  handleIsValid,
+  children,
+}) => {
+  return shouldUseVideo ? (
+    <WebcamStreamCapture
+      startRecording={startRecording}
+      stopRecording={stopRecording}
+      isValid={isValid}
+      handleIsValid={handleIsValid}
+    >
+      {children}
+    </WebcamStreamCapture>
+  ) : (
+    <Microphone
+      startRecording={startRecording}
+      stopRecording={stopRecording}
+      isValid={isValid}
+      handleIsValid={handleIsValid}
+    >
+      {children}
+    </Microphone>
+  );
+};
 
 function Question({
   question,
@@ -119,11 +148,12 @@ function Question({
       </div>
 
       <div className={["enregistrement", showWebcam].join(" ")}>
-        <WebcamStreamCapture
+        <MediaRecorder
           startRecording={startRecording}
           stopRecording={stopRecording}
           isValid={isValid}
           handleIsValid={(blob) => handleIsValid(memoryUUID, blob)}
+          shouldUseVideo={shouldUseVideo}
         >
           <div
             className={["absolute", prepareForRecordCountdownClass].join(" ")}
@@ -145,7 +175,7 @@ function Question({
           <div className={["absolute", recordingEndedClass].join(" ")}>
             Enregistrement terminé
           </div>
-        </WebcamStreamCapture>
+        </MediaRecorder>
       </div>
 
       <div className={["controls", recordingEndedClass].join(" ")}>

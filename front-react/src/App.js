@@ -6,12 +6,28 @@ import SetChair from './components/pages/set_chair';
 import RecordMemories from './components/pages/questions';
 import IdentificationFormSelection from './components/pages/id_form';
 import Thanks from './components/pages/thanks';
-
+import { useIdleTimer } from 'react-idle-timer'
 import { createNewMemoryAndGetUUID, postUseVideo } from './network_operations';
 import React, { useState, useEffect } from 'react';
 
 
 function App() {
+  const timeout = 5*60*1000
+  const handleOnActive = () => {}
+  const handleOnIdle = () => {window.location.reload()}
+  const {
+    reset,
+    pause,
+    resume,
+    getRemainingTime,
+    getLastActiveTime,
+    getElapsedTime
+  } = useIdleTimer({
+    timeout,
+    onActive: handleOnActive,
+    onIdle: handleOnIdle
+  })
+
   const [globalStep, _setGlobalStep] = useState(0);
   const [useVideo, setUseVideo] = useState(true);
   const [memoryUUID, setMemoryUUID] = useState("");

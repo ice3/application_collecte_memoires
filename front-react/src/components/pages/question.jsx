@@ -111,6 +111,10 @@ function Question({
     !isRecording && !isPreparingForRecord && !isPlaying
       ? "display"
       : "no-display";
+  const buttonValidateClass =
+    !isRecording && !isPreparingForRecord && !isPlaying
+      ? "visible"
+      : "invisible";
 
   const playSound = () => {
     play();
@@ -170,7 +174,7 @@ function Question({
         </MediaRecorder>
       </div>
 
-      <div className={["controls", recordingEndedClass].join(" ")}>
+      <div className={["controls", buttonValidateClass].join(" ")}>
         <ButtonNegative
           handleClick={() => {
             invalidQuestion();

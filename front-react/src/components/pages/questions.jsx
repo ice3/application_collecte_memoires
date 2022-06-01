@@ -40,7 +40,7 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
   return (
     <div className="container">
       <ToastContainer autoClose={1500} hideProgressBar={false}></ToastContainer>
-      <h1 className="texte-left full-width">
+      <h1 className="text-left full-width mbt-1">
         Question {currentQuestionId + 1} / {questionsNb}
       </h1>
 

@@ -151,7 +151,6 @@ h1, h2 {
 
 .indicateur {
   text-align: center;
-  position: absolute;
   width: 100%;
 }
 
@@ -239,8 +238,20 @@ h1, h2 {
   left: 1em;
 }
 
+.display{
+  display: inherit
+}
+
+.no-display{
+  display: none
+}
+
 .text-center{
   text-align: center;
+}
+
+.mbt-1 {
+  margin-bottom: 1em;
 }
 
 .text-left{

@@ -103,13 +103,13 @@ function Question({
   };
 
   const prepareForRecordCountdownClass =
-    isPreparingForRecord && !isPlaying ? "visible" : "invisible";
+    isPreparingForRecord && !isPlaying ? "display" : "no-display";
   const recordingCountdownClass =
-    isRecording && !isPlaying ? "visible" : "invisible";
+    isRecording && !isPlaying ? "display" : "no-display";
   const recordingEndedClass =
     !isRecording && !isPreparingForRecord && !isPlaying
-      ? "visible"
-      : "invisible";
+      ? "display"
+      : "no-display";
 
   const playSound = () => {
     play();
@@ -145,15 +145,13 @@ function Question({
           handleIsValid={(blob) => handleIsValid(memoryUUID, blob)}
           shouldUseVideo={shouldUseVideo}
         >
-          <div
-            className={["absolute", prepareForRecordCountdownClass].join(" ")}
-          >
+          <div className={[prepareForRecordCountdownClass].join(" ")}>
             <CountdownRecording duration={DELAY_BEFORE_RECORD}>
               Préparez-vous à répondre
             </CountdownRecording>
           </div>
 
-          <div className={["absolute", recordingCountdownClass].join(" ")}>
+          <div className={[recordingCountdownClass].join(" ")}>
             <CountdownRecording
               duration={question.secondsDuration}
               key={recordingCountdownClass}
@@ -162,7 +160,7 @@ function Question({
             </CountdownRecording>
           </div>
 
-          <div className={["absolute", recordingEndedClass].join(" ")}>
+          <div className={[recordingEndedClass].join(" ")}>
             Enregistrement terminé
           </div>
         </MediaRecorder>

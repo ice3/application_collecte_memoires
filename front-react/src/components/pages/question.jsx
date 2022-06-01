@@ -1,5 +1,5 @@
 import WebcamStreamCapture from "../elements/webcam";
-import { Button, ButtonNegative, ButtonPositive } from "../elements/button";
+import { ButtonNegative, ButtonPositive } from "../elements/button";
 import CountdownRecording from "../elements/countdownRecording";
 import { useState, useEffect } from "react";
 import useSound from "use-sound";
@@ -121,15 +121,7 @@ function Question({
     invalidQuestion();
   };
 
-  console.log("isplaying", isPlaying);
   const showWebcam = isPlaying ? "invisible" : "visible";
-  console.log(
-    "display webcam",
-    showWebcam,
-    recordingCountdownClass,
-    recordingEndedClass
-  );
-
   const playSOundButton = !isPlaying ? (
     <ButtonPositive handleClick={playSound}>Lire la question 🔊</ButtonPositive>
   ) : (

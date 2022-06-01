@@ -9,6 +9,7 @@ import Thanks from './components/pages/thanks';
 import { useIdleTimer } from 'react-idle-timer'
 import { createNewMemoryAndGetUUID, postUseVideo } from './network_operations';
 import React, { useState, useEffect } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
     onIdle: handleOnIdle
   })
 
-  const [globalStep, _setGlobalStep] = useState(0);
+  const [globalStep, _setGlobalStep] = useState(1);
   const [useVideo, setUseVideo] = useState(true);
   const [memoryUUID, setMemoryUUID] = useState("");
   const setGlobalStep = (step_number) => { _setGlobalStep(step_number % steps.length) }

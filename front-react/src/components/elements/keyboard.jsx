@@ -55,7 +55,7 @@ function FrenchKeyboard({ inputName, keyboardRef, onChangeAll, children }) {
         newLineOnEnter={true}
         {...french}
       />
-      <div class="fake-keyboard"></div>
+      <div className="fake-keyboard"></div>
     </div>
   );
 }

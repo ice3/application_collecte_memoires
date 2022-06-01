@@ -55,7 +55,7 @@ function UserInfosCommon({
 
   return (
     <>
-      <div class="userForm-infos">
+      <div className="userForm-infos">
         <label>
           <span>Nom et prénom :</span>
           <input
@@ -118,7 +118,8 @@ function UserInfosDigital({
      * If we modify the same object, react will not trigger a re-render
      */
     checkAllFilled(["phone", "email"]);
-    setInputs({ ...inputs });
+    // we need to merge the input to the previous (to keep the previous fields)
+    setInputs({ ...userInfos, ...inputs });
   };
 
   const onChangeInput = (event) => {
@@ -153,7 +154,7 @@ function UserInfosDigital({
 
   return (
     <>
-      <div class="userForm-infos">
+      <div className="userForm-infos">
         <label>
           <span>Téléphone :</span>
           <input

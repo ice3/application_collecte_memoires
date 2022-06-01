@@ -10,11 +10,6 @@ from docxtpl import DocxTemplate
 def base64_png_to_buffer(image: str) -> BytesIO:
     image_data = image.split(",", 1)[1]
     return BytesIO(base64.b64decode(image_data))
-    # with BytesIO() as output:
-    #     img = Image.open(), kind="bound")
-    #     img.save(output, format="PNG")
-    #     contents = output.getvalue()
-    # return contents
 
 
 def generate_contract_for_user(

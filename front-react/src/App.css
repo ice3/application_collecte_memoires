@@ -315,3 +315,8 @@ saumon: #ead8c0 */
 .userForm-infos input[type=button]:hover{
 background: #394D61;
 }
+
+
+.Toastify__toast-body{
+  font-size: 16pt
+}

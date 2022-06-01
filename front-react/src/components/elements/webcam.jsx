@@ -1,6 +1,6 @@
 import React from "react";
-import { findAllInRenderedTree } from "react-dom/test-utils";
 import Webcam from "react-webcam";
+import { toast } from "react-toastify";
 
 let isDownloading = false;
 
@@ -19,6 +19,7 @@ const WebcamStreamCapture = ({
 
   const handleStartCaptureClick = React.useCallback(() => {
     setCapturing(true);
+    toast.success("Enregistrement démarré");
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: "audio/webm;codecs=opus",
     });
@@ -42,6 +43,7 @@ const WebcamStreamCapture = ({
     if (mediaRecorderRef.current.state !== "inactive") {
       mediaRecorderRef.current.stop();
     }
+    toast.info("Enregistrement terminé");
     setCapturing(false);
   }, [mediaRecorderRef, webcamRef, setCapturing]);
 
@@ -81,7 +83,7 @@ const WebcamStreamCapture = ({
               console.error("Couldn't capture media devices", e)
             }
             onUserMedia={(e) => console.log("Could capture media device", e)}
-            autoplay="true"
+            autoPlay={true}
             muted="muted"
           />
           <div className="indicateur">{children}</div>

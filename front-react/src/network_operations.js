@@ -2,6 +2,7 @@ import { BASE_URL, GET_QUESTIONS, NEW_MEMORY,GET_CONTRACT_CONFIG, build_SET_AUDI
 import axios from 'axios';
 import Handlebars from "handlebars/dist/cjs/handlebars";
 import { marked } from 'marked';
+import { toast } from "react-toastify";
 
 const hydrateContract = (text, userData, location) => {
     const now = new Date();
@@ -26,7 +27,7 @@ const parseQuestions = (response) => {
     for (const index in JSON.parse(response.data.questions)){
         const fields = JSON.parse(response.data.questions)[index].fields 
         const translatedFields = {
-            secondsDuration: 10, 
+            secondsDuration: fields.duration_in_seconds, 
             value: fields.text, 
             uuid: fields.uuid, 
             voiceover: `${BASE_URL}/media/${fields.voiceover}`,
@@ -98,10 +99,11 @@ const sendAnswerMedia = (memoryUUID, questionUUID, mediaBlob) => {
     formData.append('media', mediaBlob);
     axios.post(build_NEW_STREAM(memoryUUID, questionUUID), formData, config)
     .then(function (response) {
-        console.log(response)
+        toast.success("Réponse soumise");
     })
     .catch(function (error) {
-        console.error(error);
+        console.log(error)
+        toast.error(`Erreur envoie réponse ${error}`, {autoClose: 10000});
     })
 }
 
@@ -112,6 +114,7 @@ const sendUserInfos = (memoryUUID, form) => {
     })
     .catch(function (error) {
         console.error(error);
+        toast.error(`Erreur envoie informations utilisateur ${error}`, {autoClose: 10000});
     })
 }
 
@@ -130,6 +133,7 @@ const sendSignature = (memoryUUID, signature) => {
     })
     .catch(function (error) {
         console.error(error);
+        toast.error(`Erreur envoie signature ${error}`, {autoClose: 10000});
     })
 }
 
@@ -140,6 +144,7 @@ const terminateMemory = (memoryUUID, signature) => {
     })
     .catch(function (error) {
         console.error(error);
+        toast.error(`Erreur conclusion ${error}`, {autoClose: 10000});
     })
 }
 

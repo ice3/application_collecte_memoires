@@ -1,26 +1,28 @@
 import React, { Component } from "react";
-
-import AudioReactRecorder, { RecordState } from "audio-react-recorder";
+import { toast } from "react-toastify";
+import { ReactMic } from "react-mic";
 
 class Microphone extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      recordState: RecordState.NONE,
+      recording: false,
       blob: null,
     };
   }
 
   start = () => {
+    toast.success("Enregistrement démarré");
     this.setState({
-      recordState: RecordState.START,
+      recording: true,
     });
   };
 
   stop = () => {
+    toast.info("Enregistrement terminé");
     this.setState({
-      recordState: RecordState.STOP,
+      recording: false,
     });
   };
 
@@ -31,30 +33,27 @@ class Microphone extends Component {
   };
 
   render() {
-    const { recordState } = this.state;
+    const { recording } = this.state;
     const { startRecording, stopRecording, isValid, handleIsValid, children } =
       this.props;
 
-    console.log("record state", recordState);
-    const captureStopped =
-      recordState === RecordState.NONE || recordState === RecordState.STOP;
-    if (captureStopped && startRecording) {
-      this.start();
+    if (!recording && startRecording) {
+      setTimeout(this.start, 0);
     }
 
-    if (recordState === RecordState.START && stopRecording) {
-      this.stop();
+    if (recording && stopRecording) {
+      setTimeout(this.stop, 0);
     }
 
-    if (isValid && recordState === RecordState.STOP) {
-      handleIsValid(this.state.blob);
+    if (isValid && !recording) {
+      setTimeout(() => handleIsValid(this.state.blob), 0);
     }
     return (
       <div>
-        <AudioReactRecorder
-          state={recordState}
+        <ReactMic
+          record={recording}
+          className="sound-wave"
           onStop={this.onStop}
-          type="audio/mpeg-3"
         />
         <div className="indicateur">{children}</div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, ButtonNegative, ButtonPositive } from "../elements/button";
 import Question from "./question";
+import { ToastContainer } from "react-toastify";
 
 import { fetchQuestions } from "../../network_operations";
 
@@ -39,6 +39,7 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
 
   return (
     <div className="container">
+      <ToastContainer autoClose={1500} hideProgressBar={false}></ToastContainer>
       <h1 className="texte-left full-width">
         Question {currentQuestionId + 1} / {questionsNb}
       </h1>

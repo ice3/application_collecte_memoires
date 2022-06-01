@@ -42,7 +42,7 @@ function FormulaireNumerique({
     toRender = (
       <>
         <div
-          class="formulaire-consentement"
+          className="formulaire-consentement"
           dangerouslySetInnerHTML={{ __html: markdownTemplate }}
         ></div>
         <div className="consentement-disclaimer">
@@ -77,7 +77,7 @@ function FormulaireNumerique({
   }
 
   if (validated && signed) {
-    handleNextGlobalStep();
+    setTimeout(handleNextGlobalStep, 0);
   }
 
   return (

@@ -3,7 +3,7 @@ import WebcamStreamCapture from "../elements/webcam";
 
 function SetChair({ shouldUseVideo, handleNextGlobalStep }) {
   if (!shouldUseVideo) {
-    handleNextGlobalStep();
+    setTimeout(handleNextGlobalStep, 1);
   }
   return (
     <div className="container">

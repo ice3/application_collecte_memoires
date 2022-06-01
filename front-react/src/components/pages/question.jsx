@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import useSound from "use-sound";
 import Microphone from "../elements/microphone";
 import { sendAnswerMedia } from "../../network_operations";
+import { marked } from "marked";
 
 const DELAY_BEFORE_RECORD = 3;
 
@@ -130,7 +131,10 @@ function Question({
   return (
     <div className="question">
       <div className="question-label">
-        <div className="question-texte">{question.value}</div>
+        <div
+          className="question-texte"
+          dangerouslySetInnerHTML={{ __html: marked(question.value) }}
+        ></div>
 
         <div className="question-voiceover">
           {question.voiceoverOrig.length > 0 ? playSOundButton : ""}

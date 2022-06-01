@@ -6,17 +6,18 @@ from django.utils.text import slugify
 import os
 from pathlib import Path
 from .docx_utils import generate_contract_for_user
+from mdeditor.fields import MDTextField
 
 
 class ContractConfig(models.Model):
     location = models.TextField(blank=True)
-    html_contract = models.TextField(blank=True)
+    html_contract = MDTextField(blank=True)
 
 
 # Create your models here.
 class Question(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    text = models.TextField(blank=False)
+    text = MDTextField(blank=False)
     duration_in_seconds = models.IntegerField(default=60)
     order = models.SmallIntegerField()
     voiceover = models.FileField(upload_to="questions_voiceover", blank=True)

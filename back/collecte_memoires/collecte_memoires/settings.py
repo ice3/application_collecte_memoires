@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "memoires",
+    "mdeditor",
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ORIGIN_ALLOW_ALL = True
+X_FRAME_OPTIONS = "SAMEORIGIN"
 CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo )
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo)

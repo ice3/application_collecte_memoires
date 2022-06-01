@@ -21,4 +21,5 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("memories/", include("memoires.urls")),
+    path(r"mdeditor/", include("mdeditor.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

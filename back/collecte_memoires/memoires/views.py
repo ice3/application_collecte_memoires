@@ -39,7 +39,13 @@ def answer_to_question(request, answer_uuid, question_uuid):
     if request.FILES["media"].content_type == "video/webm":
         recording_type = Recording.RECORDING_TYPE_VIDEO
         extension = "webm"
+    if request.FILES["media"].content_type == "audio/webm":
+        recording_type = Recording.RECORDING_TYPE_AUDIO
+        extension = "webm"
     elif request.FILES["media"].content_type == "audio/mpeg-3":
+        recording_type = Recording.RECORDING_TYPE_AUDIO
+        extension = "mp3"
+    elif request.FILES["media"].content_type == "audio/mp3":
         recording_type = Recording.RECORDING_TYPE_AUDIO
         extension = "mp3"
     else:

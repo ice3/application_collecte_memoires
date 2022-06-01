@@ -320,3 +320,8 @@ background: #394D61;
 .Toastify__toast-body{
   font-size: 16pt
 }
+
+.sound-wave {
+  height: 250px;
+  width: 640px;
+}

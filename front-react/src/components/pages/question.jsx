@@ -129,14 +129,12 @@ function Question({
   );
   return (
     <div className="question">
-      <div className="question-texte">
-        <span>{question.value}</span>
+      <div className="question-label">
+        <div className="question-texte">{question.value}</div>
 
-        {question.voiceoverOrig.length > 0 ? (
-          <span>{playSOundButton}</span>
-        ) : (
-          ""
-        )}
+        <div className="question-voiceover">
+          {question.voiceoverOrig.length > 0 ? playSOundButton : ""}
+        </div>
       </div>
 
       <div className={["enregistrement", showWebcam].join(" ")}>

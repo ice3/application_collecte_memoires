@@ -11,6 +11,11 @@ import { createNewMemoryAndGetUUID, postUseVideo } from './network_operations';
 import React, { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
+const disableRightClick = ()=>{
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+}
 
 function App() {
   const timeout = 5*60*1000
@@ -29,19 +34,25 @@ function App() {
     onIdle: handleOnIdle
   })
 
-  const [globalStep, _setGlobalStep] = useState(1);
+  const [globalStep, _setGlobalStep] = useState(4);
   const [useVideo, setUseVideo] = useState(true);
   const [memoryUUID, setMemoryUUID] = useState("");
   const setGlobalStep = (step_number) => { _setGlobalStep(step_number % steps.length) }
-  const nextGlobalStep = () => { console.log("next global step"); setGlobalStep(globalStep + 1) }
+  const nextGlobalStep = () => { 
+    console.log("next global step"); 
+    setGlobalStep(globalStep + 1);
+    if (memoryUUID === "") {
+      createNewMemoryAndGetUUID(setMemoryUUID)
+    }
+  }
 
   useEffect(() => {
-      createNewMemoryAndGetUUID(setMemoryUUID)
+      disableRightClick()
   }, []);
 
 
   const steps = [
-    { name: "Vidéo de présentation", component: <VideoPlayer /> },
+    { name: "Vidéo de présentation", component: <VideoPlayer/> },
     { name: "Audio ou vidéo", component: < AudioOrVideo handleAudioOrVideo={(useVideo) => { setUseVideo(useVideo); postUseVideo(useVideo, memoryUUID) }} /> },
     { name: "Réglage de la hauteur", component: <SetChair shouldUseVideo={useVideo} /> },
     { name: "Capture des mémoires", component: <RecordMemories shouldUseVideo={useVideo} /> },

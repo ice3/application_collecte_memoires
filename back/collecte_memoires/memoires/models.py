@@ -9,9 +9,43 @@ from .docx_utils import generate_contract_for_user
 from mdeditor.fields import MDTextField
 
 
+class MediaConfig(models.Model):
+    opening_video = models.FileField(
+        upload_to="medias",
+        blank=True,
+        verbose_name="Vidéo de présentation",
+        help_text="Sélectionnez la vidéo à afficher à la première étape du questionnaire. De préférence au format webm.",
+    )
+    closing_picture = models.FileField(
+        upload_to="medias",
+        blank=True,
+        verbose_name="Image de fin (remerciements, sponsors)",
+        help_text="Sélectionnez l'image à afficher à la dernière étape du questionnaire",
+    )
+    recording_base_path = models.FileField(
+        null=True,
+        blank=True,
+        verbose_name="Sélection des chemins des témoignages",
+        help_text="Sélectionnez un fichier (peu importe lequel) dans le dossier où seront stockés les médias enregistrés. Il peut se situer n'importe où.",
+    )
+
+
 class ContractConfig(models.Model):
-    location = models.TextField(blank=True)
-    html_contract = MDTextField(blank=True)
+    location = models.TextField(
+        blank=True,
+        verbose_name="Lieu de captation",
+        help_text="Indiquez le lieu à afficher dans les contrats",
+    )
+    html_contract = MDTextField(
+        blank=True,
+        verbose_name="Contrat web (en markdown)",
+        help_text="Gabarit du contrat de cession des droits (il possède des variables à remplacer en fonction des informations de l'utilisateur). Vous pouvez le formater. Ce contrat n'est utilisé que pour la partie front-end. Le document enregistré est dans un autre fichier.",
+    )
+    docx_contract = models.FileField(
+        blank=True,
+        verbose_name="Contrat docx",
+        help_text="Gabarit du contrat de cession des droits (il possède des variables à remplacer en fonction des informations de l'utilisateur. Ce fichier est utilisé pour générer les documents contractuels finaux.",
+    )
 
 
 # Create your models here.
@@ -120,9 +154,9 @@ Fichier : {recording.file_name}
         self.end_time = timezone.now()
 
         self.rename_captures_folder()
+        self.generate_informations()
         if self.form_type == self.FORM_TYPE_DIGITAL:
             self.generate_pdf_contract()
-            self.generate_informations()
         self.save()
 
 

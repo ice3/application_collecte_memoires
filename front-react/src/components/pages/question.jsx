@@ -50,6 +50,8 @@ function Question({
   handleNextGlobalStep,
 }) {
   const [startRecording, setStartRecording] = useState(false);
+  const [endRecordingTime, setEndRecordingTime] = useState(new Date());
+  const [now, setNow] = useState(new Date());
   const [stopRecording, setStopRecording] = useState(false);
   const [isPreparingForRecord, setIsPreparingForRecord] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
@@ -71,6 +73,11 @@ function Question({
     const recordStartTimer = setTimeout(() => {
       setIsPreparingForRecord(false);
       setIsRecording(true);
+
+      const now = new Date();
+      const endTime = new Date(now.getTime() + question.secondsDuration * 1000);
+      setEndRecordingTime(endTime);
+
       setStartRecording(true);
       setStopRecording(false);
     }, DELAY_BEFORE_RECORD * 1000);
@@ -84,15 +91,19 @@ function Question({
     return [recordStartTimer, recordStopTimer];
   };
 
-  const stopTimers = (recordStartTimer, recordStopTimer) => {
+  const stopTimers = (recordStartTimer, recordStopTimer, updateNow) => {
     clearTimeout(recordStartTimer);
     clearTimeout(recordStopTimer);
+    clearTimeout(updateNow);
   };
 
   useEffect(() => {
+    const updateNow = setInterval(() => {
+      setNow(new Date());
+    }, 500);
     const [recordStartTimer, recordStopTimer] = startTimers();
     setTimers([recordStartTimer, recordStopTimer]);
-    return () => stopTimers(recordStartTimer, recordStopTimer);
+    return () => stopTimers(recordStartTimer, recordStopTimer, updateNow);
   }, []);
 
   const handleIsValid = (memoryUUID, streamBlob) => {
@@ -132,6 +143,9 @@ function Question({
   ) : (
     <ButtonNegative handleClick={stopSound}>Stop ⏹️ </ButtonNegative>
   );
+  const nbSecondsRecordRemaining = Math.round(
+    (endRecordingTime.getTime() - new Date().getTime()) / 1000
+  );
   return (
     <div className="question">
       <div className="question-label">
@@ -159,12 +173,20 @@ function Question({
             </CountdownRecording>
           </div>
 
-          <div className={[recordingCountdownClass].join(" ")}>
+          <div
+            className={[recordingCountdownClass].join(" ")}
+            key={recordingCountdownClass}
+          >
             <CountdownRecording
               duration={question.secondsDuration}
-              key={recordingCountdownClass}
+              extra_class="indicator-top-shift"
             >
-              Enregistrement en cours
+              <div
+                key={recordingCountdownClass + "-" + nbSecondsRecordRemaining}
+              >
+                Enregistrement en cours <br></br>({nbSecondsRecordRemaining}{" "}
+                secondes restantes)
+              </div>
             </CountdownRecording>
           </div>
 

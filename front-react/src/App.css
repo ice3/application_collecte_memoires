@@ -149,6 +149,10 @@ h1, h2 {
   top: -150px;
 }
 
+.indicator-top-shift{
+  top: -180px;
+}
+
 .indicateur {
   text-align: center;
   width: 100%;
@@ -159,7 +163,7 @@ h1, h2 {
 }
 
 .video-canvas {
-  height: 90%;
+  width: 100%;
 }
 
 .react-simple-keyboard {
@@ -259,7 +263,7 @@ h1, h2 {
 }
 
 .full-width {
-  width: 100%;
+  width: 90vw;
 }
 
 /* ligne graphique */
@@ -309,10 +313,9 @@ saumon: #ead8c0 */
 	outline: none;
 	border: none;
 	border-bottom: 1px dashed #83A4C5;
-	width: 275px;
-	overflow: hidden;
+	width: 475px;
 	resize:none;
-	height:80px;
+	height:200px;
   font-size: 25px;
 }
 
@@ -337,6 +340,23 @@ saumon: #ead8c0 */
 background: #394D61;
 }
 
+.userForm-infos input:invalid {
+  border-color: red;
+}
+.userForm-infos input:required:focus:valid {
+  background: url("https://assets.digitalocean.com/labs/icons/hand-thumbs-up.svg") no-repeat 95% 50% lightgreen;
+  background-size: 25px;
+}
+.userForm-infos input:focus:invalid {
+  background: url("https://assets.digitalocean.com/labs/icons/exclamation-triangle-fill.svg") no-repeat 95% 50% lightsalmon;
+  background-size: 25px;
+}
+
+.input-error {
+  color:#ee5a72;
+  font-size: 15pt;
+  font-style: italic;
+}
 
 .Toastify__toast-body{
   font-size: 16pt

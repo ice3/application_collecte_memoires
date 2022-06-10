@@ -50,7 +50,11 @@ class VideoPlayer extends Component {
           <ButtonNeutral handleClick={this.handleReplay}>
             Lancer la vidéo
           </ButtonNeutral>
-          <ButtonPositive handleClick={this.handleEnd}>
+          <ButtonPositive
+            handleClick={() => {
+              this.handleEnd();
+            }}
+          >
             Etape suivante
           </ButtonPositive>
         </div>

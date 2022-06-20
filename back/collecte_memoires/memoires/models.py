@@ -51,10 +51,23 @@ class ContractConfig(models.Model):
 # Create your models here.
 class Question(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    text = MDTextField(blank=False)
-    duration_in_seconds = models.IntegerField(default=60)
-    order = models.SmallIntegerField()
-    voiceover = models.FileField(upload_to="questions_voiceover", blank=True)
+    text = MDTextField(
+        blank=False,
+        verbose_name="Texte de la question (avec formatage possible)",
+    )
+    duration_in_seconds = models.IntegerField(
+        default=60, verbose_name="Durée (en seconde) de l'enregistrement"
+    )
+    start_delay_in_seconds = models.IntegerField(
+        default=60,
+        verbose_name="Délais (en secondes) avant le début de l'enregistrement",
+    )
+    order = models.SmallIntegerField(verbose_name="Ordre de la question")
+    voiceover = models.FileField(
+        upload_to="questions_voiceover",
+        blank=True,
+        verbose_name="Voix off lisant la question",
+    )
 
     def __str__(self):
         return f"{self.order} - {self.duration_in_seconds}sec - {self.text:.50}"

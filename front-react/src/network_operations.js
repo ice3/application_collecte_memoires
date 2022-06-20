@@ -31,7 +31,8 @@ const parseQuestions = (response) => {
             value: fields.text, 
             uuid: fields.uuid, 
             voiceover: `${BASE_URL}/media/${fields.voiceover}`,
-            voiceoverOrig: fields.voiceover
+            voiceoverOrig: fields.voiceover,
+            secondsBeforeRecord: fields.start_delay_in_seconds
         }
         questions.push(translatedFields)
     }

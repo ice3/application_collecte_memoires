@@ -7,8 +7,6 @@ import Microphone from "../elements/microphone";
 import { sendAnswerMedia } from "../../network_operations";
 import { marked } from "marked";
 
-const DELAY_BEFORE_RECORD = 3;
-
 const MediaRecorder = ({
   shouldUseVideo,
   startRecording,
@@ -80,14 +78,14 @@ function Question({
 
       setStartRecording(true);
       setStopRecording(false);
-    }, DELAY_BEFORE_RECORD * 1000);
+    }, question.secondsBeforeRecord * 1000);
     const recordStopTimer = setTimeout(() => {
       clearTimeout(recordStartTimer);
       setIsPreparingForRecord(false);
       setIsRecording(false);
       setStartRecording(false);
       setStopRecording(true);
-    }, question.secondsDuration * 1000 + DELAY_BEFORE_RECORD * 1000);
+    }, question.secondsDuration * 1000 + question.secondsBeforeRecord * 1000);
     return [recordStartTimer, recordStopTimer];
   };
 
@@ -168,7 +166,7 @@ function Question({
           shouldUseVideo={shouldUseVideo}
         >
           <div className={[prepareForRecordCountdownClass].join(" ")}>
-            <CountdownRecording duration={DELAY_BEFORE_RECORD}>
+            <CountdownRecording duration={question.secondsBeforeRecord}>
               Préparez-vous à répondre
             </CountdownRecording>
           </div>

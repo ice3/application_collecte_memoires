@@ -1,8 +1,16 @@
 import { terminateMemory } from "../../network_operations";
+import { ButtonPositive } from "../elements/button";
 
-function Thanks({ memoryUUID }) {
+function Thanks({ memoryUUID, mediaPath }) {
   terminateMemory(memoryUUID);
-  return <img src="/photos/remerciements.png" alt="image" />;
+  return (
+    <div className="container">
+      <img src={mediaPath} alt="image" />
+      <ButtonPositive handleClick={() => window.location.reload()}>
+        Revenir à l'accueil
+      </ButtonPositive>
+    </div>
+  );
 }
 
 export default Thanks;

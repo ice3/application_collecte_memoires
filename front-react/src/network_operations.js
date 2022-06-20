@@ -1,4 +1,8 @@
-import { BASE_URL, GET_QUESTIONS, NEW_MEMORY,GET_CONTRACT_CONFIG, build_SET_AUDIO_VIDEO, build_NEW_STREAM, build_SET_USER_INFOS, build_TERMINATE_MEMORY, build_SET_USER_SIGNATURE } from './urls';
+import { 
+    BASE_URL, GET_QUESTIONS, NEW_MEMORY, GET_CONTRACT_CONFIG, 
+    GET_MEDIAS, build_SET_AUDIO_VIDEO, build_NEW_STREAM, 
+    build_SET_USER_INFOS, build_TERMINATE_MEMORY, build_SET_USER_SIGNATURE 
+} from './urls';
 import axios from 'axios';
 import Handlebars from "handlebars/dist/cjs/handlebars";
 import { marked } from 'marked';
@@ -68,6 +72,16 @@ const fetchQuestions = (setData) => {
     axios.get(GET_QUESTIONS)
     .then(function (response) {
         setData(parseQuestions(response))
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+}
+
+const fetchMedias = (setMedias) => {
+    axios.get(GET_MEDIAS)
+    .then(function (response) {
+        setMedias(response.data)
     })
     .catch(function (error) {
         console.log(error);
@@ -149,4 +163,8 @@ const terminateMemory = (memoryUUID, signature) => {
     })
 }
 
-export {fetchQuestions, fetchContractConfig, createNewMemoryAndGetUUID, postUseVideo, sendAnswerMedia, sendUserInfos, sendSignature, terminateMemory}
+export {fetchQuestions, fetchContractConfig, 
+    fetchMedias, createNewMemoryAndGetUUID, 
+    postUseVideo, sendAnswerMedia, 
+    sendUserInfos, sendSignature, terminateMemory
+}

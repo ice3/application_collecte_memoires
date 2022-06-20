@@ -126,14 +126,20 @@ h1, h2 {
   align-items: center;
 }
   
-.question-text {
-  margin: 40px;
+.question-texte {
+  margin: 7px;
+  font-size: 28pt;
 }
+
+.question-texte *{
+  margin: 2px
+}
+
 .enregistrement{
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 40px;
+  margin: 20px;
   margin-bottom: 0px;
 }
 
@@ -159,7 +165,7 @@ h1, h2 {
 }
 
 .video {
-  height: 50vh;
+  height: 55vh;
 }
 
 .video-canvas {
@@ -365,4 +371,8 @@ background: #394D61;
 .sound-wave {
   height: 250px;
   width: 640px;
+}
+
+.mt-0 {
+  margin-top: 0px!important;
 }

@@ -3,7 +3,6 @@ import ReactPlayer from "react-player";
 import { ButtonPositive, ButtonNeutral } from "../elements/button";
 class VideoPlayer extends Component {
   state = {
-    url: "videos/video_reencodee.webm",
     playing: false,
     played: 0,
     pip: false,
@@ -31,7 +30,8 @@ class VideoPlayer extends Component {
   };
 
   render() {
-    const { url, playing, played } = this.state;
+    const { playing, played } = this.state;
+    const url = this.props.mediaPath;
     return (
       <div className="container">
         <h1>But du dispositif</h1>

@@ -1,7 +1,6 @@
 from django.utils import timezone
 from django.db import models
 import uuid
-from django.conf import settings
 from django.utils.text import slugify
 import os
 from pathlib import Path
@@ -121,11 +120,14 @@ class Answer(models.Model):
 
     def rename_captures_folder(self):
         new_directory_name = (
-            settings.BASE_MEDIAS
+            Path(MediaConfig.objects.first().recording_base_path.path).parent
             / str(timezone.now().date())
             / f"{slugify(self.user_name)}_{uuid.uuid4().hex[:4].upper()}"
-        )
+        ).resolve()
         os.rename(self.recordings.first().directory_name, new_directory_name)
+        print(
+            "renaming", self.recordings.first().directory_name, "->", new_directory_name
+        )
         self.recordings.update(directory_name=new_directory_name)
 
     def generate_pdf_contract(self):
@@ -133,11 +135,7 @@ class Answer(models.Model):
         date = f"{timezone.now():%m/%d/%Y-%H:%M:%S}"
         directory_name = self.recordings.first().directory_name
         template_path = (
-            Path(settings.BASE_DIR)
-            / ".."
-            / ".."
-            / "documents"
-            / "template_contrat.docx"
+            Path(ContractConfig.objects.first().docx_contract.path)
         ).resolve()
         output_path = Path(directory_name) / "contract.docx"
         generate_contract_for_user(template_path, self, date, location, output_path)

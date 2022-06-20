@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path("questions/", views.get_all_questions),
+    path("medias/", views.get_medias),
     path("contract-config/", views.get_contract_config),
     path("new-memory/", views.new_memory),
     path("<uuid:answer_uuid>/audio-video/", views.set_audio_or_video),

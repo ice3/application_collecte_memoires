@@ -145,79 +145,85 @@ function Question({
     (endRecordingTime.getTime() - new Date().getTime()) / 1000
   );
   return (
-    <div className="question">
-      <div className="question-label">
-        <div
-          className="question-texte"
-          dangerouslySetInnerHTML={{ __html: marked(question.value) }}
-        ></div>
+    <>
+      <h1 className="text-left full-width mt-0">
+        Question {step} / {numberOfQuestions}
+      </h1>
 
-        <div className="question-voiceover">
-          {question.voiceoverOrig.length > 0 ? playSOundButton : ""}
-        </div>
-      </div>
-
-      <div className={["enregistrement", showWebcam].join(" ")}>
-        <MediaRecorder
-          startRecording={startRecording}
-          stopRecording={stopRecording}
-          isValid={isValid}
-          handleIsValid={(blob) => handleIsValid(memoryUUID, blob)}
-          shouldUseVideo={shouldUseVideo}
-        >
-          <div className={[prepareForRecordCountdownClass].join(" ")}>
-            <CountdownRecording duration={question.secondsBeforeRecord}>
-              Préparez-vous à répondre
-            </CountdownRecording>
-          </div>
-
+      <div className="question">
+        <div className="question-label">
           <div
-            className={[recordingCountdownClass].join(" ")}
-            key={recordingCountdownClass}
+            className="question-texte"
+            dangerouslySetInnerHTML={{ __html: marked(question.value) }}
+          ></div>
+
+          <div className="question-voiceover">
+            {question.voiceoverOrig.length > 0 ? playSOundButton : ""}
+          </div>
+        </div>
+
+        <div className={["enregistrement", showWebcam].join(" ")}>
+          <MediaRecorder
+            startRecording={startRecording}
+            stopRecording={stopRecording}
+            isValid={isValid}
+            handleIsValid={(blob) => handleIsValid(memoryUUID, blob)}
+            shouldUseVideo={shouldUseVideo}
           >
-            <CountdownRecording
-              duration={question.secondsDuration}
-              extra_class="indicator-top-shift"
+            <div className={[prepareForRecordCountdownClass].join(" ")}>
+              <CountdownRecording duration={question.secondsBeforeRecord}>
+                Préparez-vous à répondre
+              </CountdownRecording>
+            </div>
+
+            <div
+              className={[recordingCountdownClass].join(" ")}
+              key={recordingCountdownClass}
             >
-              <div
-                key={recordingCountdownClass + "-" + nbSecondsRecordRemaining}
+              <CountdownRecording
+                duration={question.secondsDuration}
+                extra_class="indicator-top-shift"
               >
-                Enregistrement en cours <br></br>({nbSecondsRecordRemaining}{" "}
-                secondes restantes)
-              </div>
-            </CountdownRecording>
-          </div>
+                <div
+                  key={recordingCountdownClass + "-" + nbSecondsRecordRemaining}
+                >
+                  Enregistrement en cours <br></br>({nbSecondsRecordRemaining}{" "}
+                  secondes restantes)
+                </div>
+              </CountdownRecording>
+            </div>
 
-          <div className={[recordingEndedClass].join(" ")}>
-            Enregistrement terminé
-          </div>
-        </MediaRecorder>
+            <div className={[recordingEndedClass].join(" ")}>
+              Enregistrement terminé
+            </div>
+          </MediaRecorder>
+        </div>
+
+        <div className={["controls", buttonValidateClass].join(" ")}>
+          <ButtonNegative
+            handleClick={() => {
+              invalidQuestion();
+            }}
+          >
+            Refaire la prise
+          </ButtonNegative>
+          <ButtonPositive
+            handleClick={() => {
+              setIsValid(true);
+              // we need to let the time for the upload, we should be using a state instead
+              setTimeout(handleNextQuestion, 30);
+              if (questionsOver) {
+                setTimeout(handleNextGlobalStep, 30);
+              }
+            }}
+          >
+            Valider la prise
+          </ButtonPositive>
+        </div>
+
+        {step <= numberOfQuestions ? "" : ""}
       </div>
-
-      <div className={["controls", buttonValidateClass].join(" ")}>
-        <ButtonNegative
-          handleClick={() => {
-            invalidQuestion();
-          }}
-        >
-          Refaire la prise
-        </ButtonNegative>
-        <ButtonPositive
-          handleClick={() => {
-            setIsValid(true);
-            // we need to let the time for the upload, we should be using a state instead
-            setTimeout(handleNextQuestion, 30);
-            if (questionsOver) {
-              setTimeout(handleNextGlobalStep, 30);
-            }
-          }}
-        >
-          Valider la prise
-        </ButtonPositive>
-      </div>
-
-      {step <= numberOfQuestions ? "" : ""}
-    </div>
+    </>
   );
 }
 

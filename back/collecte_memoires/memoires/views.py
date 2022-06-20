@@ -7,8 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.forms.models import model_to_dict
+from pathlib import Path
 
-from .models import Answer, Question, Recording, ContractConfig
+from .models import Answer, Question, Recording, ContractConfig, MediaConfig
 from django.conf import settings
 
 # Create your views here.
@@ -19,7 +20,12 @@ def get_all_questions(request):
 
 def get_contract_config(request):
     contract_infos = ContractConfig.objects.first()
-    return JsonResponse(model_to_dict(contract_infos))
+    return JsonResponse(
+        {
+            "location": contract_infos.location,
+            "html_contract": contract_infos.html_contract,
+        }
+    )
 
 
 @require_POST
@@ -39,7 +45,7 @@ def answer_to_question(request, answer_uuid, question_uuid):
     if request.FILES["media"].content_type == "video/webm":
         recording_type = Recording.RECORDING_TYPE_VIDEO
         extension = "webm"
-    if request.FILES["media"].content_type == "audio/webm":
+    elif request.FILES["media"].content_type == "audio/webm":
         recording_type = Recording.RECORDING_TYPE_AUDIO
         extension = "webm"
     elif request.FILES["media"].content_type == "audio/mpeg-3":
@@ -52,7 +58,11 @@ def answer_to_question(request, answer_uuid, question_uuid):
         print("AAAAAAAAAA", "unknown content type", request.FILES["media"].content_type)
 
     date = timezone.now().date()
-    folder_name = settings.BASE_MEDIAS / str(date) / str(answer_uuid)
+    folder_name = (
+        Path(MediaConfig.objects.first().recording_base_path.path).parent
+        / str(date)
+        / str(answer_uuid)
+    ).resolve()
     folder_name.mkdir(exist_ok=True, parents=True)
     file_name = f"question-{question.order}.{extension}"
     path = folder_name / file_name
@@ -61,6 +71,7 @@ def answer_to_question(request, answer_uuid, question_uuid):
     with open(path, "wb+") as f:
         for chunk in request.FILES.get("media").chunks():
             f.write(chunk)  # so, just read it from the request
+    print("Created video in", path)
 
     Recording.objects.create(
         recording_type=recording_type,
@@ -116,3 +127,16 @@ def terminate_memory(request, answer_uuid):
     answer = get_object_or_404(Answer, uuid=answer_uuid)
     answer.terminate()
     return JsonResponse({"status": "ok"})
+
+
+def get_medias(request):
+    def get_absolute_url(filefield):
+        return f"{settings.BASE_URL}{filefield.url[1:]}"
+
+    medias = MediaConfig.objects.first()
+    return JsonResponse(
+        {
+            "opening_video": get_absolute_url(medias.opening_video),
+            "closing_picture": get_absolute_url(medias.closing_picture),
+        }
+    )

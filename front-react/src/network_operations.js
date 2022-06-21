@@ -14,12 +14,12 @@ const hydrateContract = (text, userData, location) => {
   
     const template = Handlebars.compile(text);
     const hydrated_text = template({
-      name: userData.name,
-      address: userData.address,
-      phone: userData.phone,
-      email: userData.email,
-      lieu: location,
-      date: date,
+        nom_temoin: userData.name,
+        adresse_temoin: userData.address,
+        telephone_temoin: userData.phone,
+        courriel_temoin: userData.email,
+        lieu_temoignage: location,
+        date_temoignage: date,
     });
     return hydrated_text;
   };

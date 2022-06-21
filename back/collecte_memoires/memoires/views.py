@@ -11,6 +11,10 @@ from pathlib import Path
 
 from .models import Answer, Question, Recording, ContractConfig, MediaConfig
 from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 # Create your views here.
 def get_all_questions(request):
@@ -55,7 +59,9 @@ def answer_to_question(request, answer_uuid, question_uuid):
         recording_type = Recording.RECORDING_TYPE_AUDIO
         extension = "mp3"
     else:
-        print("AAAAAAAAAA", "unknown content type", request.FILES["media"].content_type)
+        logger.error(
+            "AAAAAAAAAA", "unknown content type", request.FILES["media"].content_type
+        )
 
     date = timezone.now().date()
     folder_name = (
@@ -66,12 +72,11 @@ def answer_to_question(request, answer_uuid, question_uuid):
     folder_name.mkdir(exist_ok=True, parents=True)
     file_name = f"question-{question.order}.{extension}"
     path = folder_name / file_name
-    print("creating", path)
 
     with open(path, "wb+") as f:
         for chunk in request.FILES.get("media").chunks():
             f.write(chunk)  # so, just read it from the request
-    print("Created video in", path)
+    logger.info("Created video in", path, "for:", answer_uuid)
 
     Recording.objects.create(
         recording_type=recording_type,

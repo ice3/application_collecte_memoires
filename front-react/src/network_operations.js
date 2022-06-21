@@ -51,7 +51,8 @@ const createNewMemoryAndGetUUID = (setData) => {
         setData(response.data.uuid)
     })
     .catch(function (error) {
-        console.log(error);
+        console.log(error)
+        toast.error(`Erreur création nouvelle mémoire ${error}`, {autoClose: 10000});
     })
 }
 
@@ -63,6 +64,8 @@ const postUseVideo = (useVideo, memoryUUID) => {
     })
     .catch(function (error) {
         console.log(error);
+        toast.error(`Erreur post media ${error}`, {autoClose: 10000});
+
     })
 }
 
@@ -75,6 +78,7 @@ const fetchQuestions = (setData) => {
     })
     .catch(function (error) {
         console.log(error);
+        toast.error(`Erreur fetch questions ${error}`, {autoClose: 10000});
     })
 }
 
@@ -85,6 +89,7 @@ const fetchMedias = (setMedias) => {
     })
     .catch(function (error) {
         console.log(error);
+        toast.error(`Erreur fetch medias ${error}`, {autoClose: 10000});
     })
 }
 
@@ -98,7 +103,11 @@ const fetchContractConfig = (userData, setData) => {
       const location = data.location;
       const hydrated_text = hydrateContract(text, userData, location);
       setData(marked(hydrated_text));
-    });
+    })    
+    .catch(function (error) {
+        console.log(error);
+        toast.error(`Erreur fetch contract config ${error}`, {autoClose: 10000});
+    })
 
 }
 

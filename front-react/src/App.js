@@ -10,6 +10,7 @@ import { useIdleTimer } from 'react-idle-timer'
 import { createNewMemoryAndGetUUID, postUseVideo, fetchMedias } from './network_operations';
 import React, { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const disableRightClick = ()=>{
   document.addEventListener('contextmenu', (e) => {
@@ -67,10 +68,13 @@ function App() {
   }
 
   return (
-    React.cloneElement(
+    <>
+          <ToastContainer autoClose={1500} hideProgressBar={false}></ToastContainer>
+        {React.cloneElement(
       steps[globalStep].component,
       { "handleNextGlobalStep": nextGlobalStep,  "memoryUUID":memoryUUID}
-    )
+    )}
+    </>
   );
 }
 

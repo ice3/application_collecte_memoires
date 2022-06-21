@@ -39,8 +39,6 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
 
   return (
     <div className="container">
-      <ToastContainer autoClose={1500} hideProgressBar={false}></ToastContainer>
-
       <Question
         question={currentQuestion}
         shouldUseVideo={shouldUseVideo}

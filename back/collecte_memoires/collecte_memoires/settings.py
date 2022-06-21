@@ -126,3 +126,27 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo )
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo)
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": Path.home() / "collecte_memoire.log",
+        },
+    },
+    # A logger for WARNING which has a handler called 'file'. A logger can have multiple handler
+    "loggers": {
+        # notice the blank '', Usually you would put built in loggers like django or root here based on your needs
+        "": {
+            "handlers": [
+                "file"
+            ],  # notice how file variable is called in handler which has been defined above
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}

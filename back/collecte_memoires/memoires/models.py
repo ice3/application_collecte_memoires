@@ -6,6 +6,9 @@ import os
 from pathlib import Path
 from .docx_utils import generate_contract_for_user
 from mdeditor.fields import MDTextField
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class MediaConfig(models.Model):
@@ -126,7 +129,7 @@ class Answer(models.Model):
             / f"{slugify(self.user_name)}_{uuid.uuid4().hex[:4].upper()}"
         ).resolve()
         os.rename(self.recordings.first().directory_name, new_directory_name)
-        print(
+        logger.info(
             "renaming", self.recordings.first().directory_name, "->", new_directory_name
         )
         self.recordings.update(directory_name=new_directory_name)

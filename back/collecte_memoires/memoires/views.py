@@ -59,7 +59,7 @@ def answer_to_question(request, answer_uuid, question_uuid):
 
     date = timezone.now().date()
     folder_name = (
-        Path(MediaConfig.objects.first().recording_base_path.path).parent
+        Path(MediaConfig.objects.first().recording_base_path)
         / str(date)
         / str(answer_uuid)
     ).resolve()

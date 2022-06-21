@@ -21,11 +21,12 @@ class MediaConfig(models.Model):
         verbose_name="Image de fin (remerciements, sponsors)",
         help_text="Sélectionnez l'image à afficher à la dernière étape du questionnaire",
     )
-    recording_base_path = models.FileField(
+    recording_base_path = models.CharField(
         null=True,
         blank=True,
+        max_length=300,
         verbose_name="Sélection des chemins des témoignages",
-        help_text="Sélectionnez un fichier (peu importe lequel) dans le dossier où seront stockés les médias enregistrés. Il peut se situer n'importe où.",
+        help_text="Mettez le nom du dossier où seront stockés les médias enregistrés. Il peut se situer n'importe où. Mais doit exister.",
     )
 
 
@@ -120,7 +121,7 @@ class Answer(models.Model):
 
     def rename_captures_folder(self):
         new_directory_name = (
-            Path(MediaConfig.objects.first().recording_base_path.path).parent
+            Path(MediaConfig.objects.first().recording_base_path)
             / str(timezone.now().date())
             / f"{slugify(self.user_name)}_{uuid.uuid4().hex[:4].upper()}"
         ).resolve()

@@ -38,15 +38,15 @@ class Microphone extends Component {
       this.props;
 
     if (!recording && startRecording) {
-      setTimeout(this.start, 0);
+      this.start();
     }
 
     if (recording && stopRecording) {
-      setTimeout(this.stop, 0);
+      this.stop();
     }
 
     if (isValid && !recording) {
-      setTimeout(() => handleIsValid(this.state.blob), 0);
+      handleIsValid(this.state.blob);
     }
     return (
       <div>

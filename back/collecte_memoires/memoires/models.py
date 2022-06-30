@@ -12,6 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 class MediaConfig(models.Model):
+    background_color = models.CharField(
+        null=True,
+        blank=True,
+        max_length=10,
+        verbose_name="Couleur de fond",
+        help_text="En hexadécimal, par exemple : #EBEBF4",
+    )
+
     opening_video = models.FileField(
         upload_to="medias",
         blank=True,

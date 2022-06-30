@@ -34,7 +34,7 @@ class VideoPlayer extends Component {
     const url = this.props.mediaPath;
     return (
       <div className="container">
-        <h1>But du dispositif</h1>
+        <h1>Témoigner</h1>
         <div className="video-presentation">
           <ReactPlayer
             ref={this.ref}

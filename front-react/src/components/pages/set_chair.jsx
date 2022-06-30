@@ -19,7 +19,7 @@ function SetChair({ shouldUseVideo, handleNextGlobalStep }) {
       <WebcamStreamCapture />
 
       <ButtonNeutral handleClick={handleNextGlobalStep}>
-        C'est bon !
+        Je suis prêt
       </ButtonNeutral>
     </div>
   );

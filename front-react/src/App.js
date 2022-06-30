@@ -50,7 +50,7 @@ function App() {
 
   useEffect(() => {
       disableRightClick();
-      fetchMedias(setMediaInfos)
+      fetchMedias(setMediaInfos);
   }, []);
 
 
@@ -67,13 +67,19 @@ function App() {
     return ""
   }
 
+  const backgroundColor = `${mediasInfos.background_color || "#EBEBF4"}`;
+  console.log(backgroundColor)
+
   return (
     <>
           <ToastContainer autoClose={1500} hideProgressBar={false}></ToastContainer>
+        <div style={{width: "100%", height: "100%"}} ref={(node) => node? node.style.setProperty("background-color", backgroundColor, "important"):""}>
+
         {React.cloneElement(
-      steps[globalStep].component,
-      { "handleNextGlobalStep": nextGlobalStep,  "memoryUUID":memoryUUID}
-    )}
+          steps[globalStep].component,
+          { "handleNextGlobalStep": nextGlobalStep,  "memoryUUID":memoryUUID}
+          )}
+          </div>
     </>
   );
 }

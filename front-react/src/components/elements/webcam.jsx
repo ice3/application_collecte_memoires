@@ -21,7 +21,7 @@ const WebcamStreamCapture = ({
     setCapturing(true);
     toast.success("Enregistrement démarré");
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: "audio/webm;codecs=opus",
+      mimeType: "video/webm",
     });
     mediaRecorderRef.current.addEventListener(
       "dataavailable",

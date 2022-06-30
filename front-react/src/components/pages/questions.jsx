@@ -8,6 +8,7 @@ import { fetchQuestions } from "../../network_operations";
 function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
   const [currentQuestionId, setQuestionStep] = useState(0);
   const [questionsOver, setQuestionsOver] = useState(false);
+  const [autoPlayQuestion, setAutoPlayQuestion] = useState(true);
   const [questions, setQuestions] = useState([]);
   const [key, setKey] = useState(currentQuestionId);
 
@@ -24,6 +25,7 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
       setQuestionsOver(true);
     }
     setKey(currentQuestionId + 1);
+    setAutoPlayQuestion(true);
   };
 
   const invalidQuestion = () => {
@@ -36,7 +38,6 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
 
   const questionsNb = questions.length;
   const currentQuestion = questions[currentQuestionId];
-
   return (
     <div className="container">
       <Question
@@ -48,6 +49,7 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
         invalidQuestion={invalidQuestion}
         key={key}
         memoryUUID={memoryUUID}
+        autoPlayQuestion={currentQuestionId == key}
         questionsOver={questionsOver}
         handleNextGlobalStep={handleNextGlobalStep}
       />

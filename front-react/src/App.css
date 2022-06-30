@@ -166,11 +166,11 @@ h1, h2 {
 }
 
 .video {
-  height: 55vh;
+  height: 54vh;
 }
 
 .video-canvas {
-  width: 100%;
+  width: 98%;
 }
 
 .react-simple-keyboard {
@@ -297,7 +297,7 @@ saumon: #ead8c0 */
 .userForm-infos label > span{
 	display: inline-block;
 	float: left;
-	width: 250px;
+	width: 270px;
 }
 .userForm-infos input[type=text],
 .userForm-infos input[type=email] 

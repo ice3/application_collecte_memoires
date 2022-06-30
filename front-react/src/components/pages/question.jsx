@@ -46,12 +46,14 @@ function Question({
   memoryUUID,
   questionsOver,
   handleNextGlobalStep,
+  autoPlayQuestion,
 }) {
   const [startRecording, setStartRecording] = useState(false);
   const [endRecordingTime, setEndRecordingTime] = useState(new Date());
   const [now, setNow] = useState(new Date());
+  const [waitingToStart, setWaitingToStart] = useState(true);
   const [stopRecording, setStopRecording] = useState(false);
-  const [isPreparingForRecord, setIsPreparingForRecord] = useState(true);
+  const [isPreparingForRecord, setIsPreparingForRecord] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isValid, setIsValid] = useState(undefined);
   const [timers, setTimers] = useState([]);
@@ -68,6 +70,8 @@ function Question({
   });
 
   const startTimers = () => {
+    setWaitingToStart(false);
+    setIsPreparingForRecord(true);
     const recordStartTimer = setTimeout(() => {
       setIsPreparingForRecord(false);
       setIsRecording(true);
@@ -90,19 +94,24 @@ function Question({
   };
 
   const stopTimers = (recordStartTimer, recordStopTimer, updateNow) => {
-    clearTimeout(recordStartTimer);
-    clearTimeout(recordStopTimer);
-    clearTimeout(updateNow);
+    if (recordStartTimer) clearTimeout(recordStartTimer);
+    if (recordStopTimer) clearTimeout(recordStopTimer);
+    if (updateNow) clearTimeout(updateNow);
   };
 
-  useEffect(() => {
+  const onStartAll = () => {
     const updateNow = setInterval(() => {
       setNow(new Date());
     }, 500);
     const [recordStartTimer, recordStopTimer] = startTimers();
     setTimers([recordStartTimer, recordStopTimer]);
     return () => stopTimers(recordStartTimer, recordStopTimer, updateNow);
-  }, []);
+  };
+
+  if (autoPlayQuestion) {
+    console.log("play question");
+    play();
+  }
 
   const handleIsValid = (memoryUUID, streamBlob) => {
     try {
@@ -112,18 +121,35 @@ function Question({
     }
   };
 
+  const shouldStartAllButtonBeVisibleClass =
+    waitingToStart && !isRecording && !isPreparingForRecord && !isPlaying
+      ? "display"
+      : "no-display";
+
   const prepareForRecordCountdownClass =
-    isPreparingForRecord && !isPlaying ? "display" : "no-display";
+    !waitingToStart && isPreparingForRecord && !isPlaying
+      ? "display"
+      : "no-display";
   const recordingCountdownClass =
-    isRecording && !isPlaying ? "display" : "no-display";
+    !waitingToStart && isRecording && !isPlaying ? "display" : "no-display";
   const recordingEndedClass =
-    !isRecording && !isPreparingForRecord && !isPlaying
+    !waitingToStart && !isRecording && !isPreparingForRecord && !isPlaying
       ? "display"
       : "no-display";
   const buttonValidateClass =
-    !isRecording && !isPreparingForRecord && !isPlaying
+    !waitingToStart && !isRecording && !isPreparingForRecord && !isPlaying
       ? "visible"
       : "invisible";
+
+  console.log(
+    "shouldStartAllButtonBeVisibleClass",
+    shouldStartAllButtonBeVisibleClass
+  );
+  console.log("prepareForRecordCountdownClass", prepareForRecordCountdownClass);
+  console.log("recordingCountdownClass", recordingCountdownClass);
+  console.log("recordingEndedClass", recordingEndedClass);
+  console.log("buttonValidateClass", buttonValidateClass);
+  console.log("");
 
   const playSound = () => {
     play();
@@ -137,13 +163,16 @@ function Question({
 
   const showWebcam = isPlaying ? "invisible" : "visible";
   const playSOundButton = !isPlaying ? (
-    <ButtonPositive handleClick={playSound}>Lire la question 🔊</ButtonPositive>
+    <ButtonPositive handleClick={playSound}>
+      Relire la question 🔊
+    </ButtonPositive>
   ) : (
     <ButtonNegative handleClick={stopSound}>Stop ⏹️ </ButtonNegative>
   );
   const nbSecondsRecordRemaining = Math.round(
     (endRecordingTime.getTime() - new Date().getTime()) / 1000
   );
+
   return (
     <>
       <h1 className="text-left full-width mt-0">
@@ -171,7 +200,10 @@ function Question({
             shouldUseVideo={shouldUseVideo}
           >
             <div className={[prepareForRecordCountdownClass].join(" ")}>
-              <CountdownRecording duration={question.secondsBeforeRecord}>
+              <CountdownRecording
+                key={isPreparingForRecord}
+                duration={question.secondsBeforeRecord}
+              >
                 Préparez-vous à répondre
               </CountdownRecording>
             </div>
@@ -191,6 +223,16 @@ function Question({
                   secondes restantes)
                 </div>
               </CountdownRecording>
+            </div>
+
+            <div className={[shouldStartAllButtonBeVisibleClass].join(" ")}>
+              <ButtonPositive
+                handleClick={() => {
+                  onStartAll();
+                }}
+              >
+                Témoigner
+              </ButtonPositive>
             </div>
 
             <div className={[recordingEndedClass].join(" ")}>

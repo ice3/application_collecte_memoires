@@ -3,13 +3,19 @@ from pathlib import Path
 from PIL import Image
 from io import BytesIO
 from docxtpl import DocxTemplate
+import logging
 
-"./documents/template_contrat.docx"
+logger = logging.getLogger(__name__)
 
 
 def base64_png_to_buffer(image: str) -> BytesIO:
-    image_data = image.split(",", 1)[1]
-    return BytesIO(base64.b64decode(image_data))
+    try:
+        image_data = image.split(",", 1)[1]
+        return BytesIO(base64.b64decode(image_data))
+    except IndexError as e:
+        logger.exception(f"Error splitting signature: {image_data}")
+        logger.exception(e)
+        return BytesIO(b"")
 
 
 def generate_contract_for_user(

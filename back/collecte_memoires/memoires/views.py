@@ -76,7 +76,7 @@ def answer_to_question(request, answer_uuid, question_uuid):
     with open(path, "wb+") as f:
         for chunk in request.FILES.get("media").chunks():
             f.write(chunk)  # so, just read it from the request
-    logger.info("Created video in", path, "for:", answer_uuid)
+    logger.info(f"Created media in {path} for: {answer_uuid}")
 
     Recording.objects.create(
         recording_type=recording_type,

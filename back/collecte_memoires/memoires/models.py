@@ -106,6 +106,7 @@ class Answer(models.Model):
     )
     accepted_terms_datetime = models.DateTimeField(blank=True, null=True)
     signature = models.TextField()  # stores the base64 image
+    is_contract_generated = models.BooleanField(default=False)
 
     recording_type = models.SmallIntegerField(
         choices=((0, "video"), (1, "audio")), blank=True, null=True
@@ -138,7 +139,7 @@ class Answer(models.Model):
         ).resolve()
         os.rename(self.recordings.first().directory_name, new_directory_name)
         logger.info(
-            "renaming", self.recordings.first().directory_name, "->", new_directory_name
+            f"renaming {self.recordings.first().directory_name} -> {new_directory_name}"
         )
         self.recordings.update(directory_name=new_directory_name)
 
@@ -150,7 +151,15 @@ class Answer(models.Model):
             Path(ContractConfig.objects.first().docx_contract.path)
         ).resolve()
         output_path = Path(directory_name) / "contract.docx"
-        generate_contract_for_user(template_path, self, date, location, output_path)
+        self.contract_output_path = output_path
+        try:
+            generate_contract_for_user(template_path, self, date, location, output_path)
+            self.is_contract_generated = True
+        except Exception as e:
+            logger.error("Error while generating contract")
+            logger.exception(e)
+            self.is_contract_generated = False
+        self.save()
 
     def generate_informations(self):
         """Generate a 'readme' with all the informations"""
@@ -163,6 +172,7 @@ Nom du témoin : {self.user_name}
 Email du témoin : {self.user_email}
 Adresse du témoin : {self.user_postal_address}
 Téléphone du témoin : {self.user_phone}
+Contrat généré : {self.is_contract_generated} ({self.contract_output_path})
 ----------"""
         for recording in self.recordings.all():
             template += f"""
@@ -177,9 +187,9 @@ Fichier : {recording.file_name}
         self.end_time = timezone.now()
 
         self.rename_captures_folder()
-        self.generate_informations()
         if self.form_type == self.FORM_TYPE_DIGITAL:
             self.generate_pdf_contract()
+        self.generate_informations()
         self.save()
 
 

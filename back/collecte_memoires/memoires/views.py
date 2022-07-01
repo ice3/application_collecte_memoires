@@ -144,5 +144,6 @@ def get_medias(request):
             "opening_video": get_absolute_url(medias.opening_video),
             "closing_picture": get_absolute_url(medias.closing_picture),
             "background_color": medias.background_color,
+            "seconds_before_idle": medias.seconds_before_idle,
         }
     )

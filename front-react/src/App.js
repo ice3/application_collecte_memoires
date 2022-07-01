@@ -19,22 +19,6 @@ const disableRightClick = ()=>{
 }
 
 function App() {
-  const timeout = 5*60*1000
-  const handleOnActive = () => {}
-  const handleOnIdle = () => {window.location.reload()}
-  const {
-    reset,
-    pause,
-    resume,
-    getRemainingTime,
-    getLastActiveTime,
-    getElapsedTime
-  } = useIdleTimer({
-    timeout,
-    onActive: handleOnActive,
-    onIdle: handleOnIdle
-  })
-
   const [globalStep, _setGlobalStep] = useState(0);
   const [useVideo, setUseVideo] = useState(true);
   const [memoryUUID, setMemoryUUID] = useState("");
@@ -48,11 +32,37 @@ function App() {
     }
   }
 
-  useEffect(() => {
-      disableRightClick();
-      fetchMedias(setMediaInfos);
-  }, []);
+  const timeout = mediasInfos.seconds_before_idle * 1000
+  const handleOnIdle = () => {window.location.reload()}
+  const handleOnActive = () => {}
+  const {
+    start, 
+    reset,
+    pause,
+    resume,
+    getRemainingTime,
+    getLastActiveTime,
+    getElapsedTime
+  } = useIdleTimer({
+    timeout: timeout,
+    onActive: handleOnActive,
+    onIdle: handleOnIdle,
+    startOnMount: false,  // before logged in, do not start idle timer
+    startManually: true,
+  })
 
+  
+  useEffect(() => {
+    if(mediasInfos.seconds_before_idle){ 
+      start()
+    }
+  }, [mediasInfos])
+
+
+  useEffect(() => {
+    disableRightClick();
+    fetchMedias(setMediaInfos);
+}, []);
 
   const steps = [
     { name: "Vidéo de présentation", component: <VideoPlayer mediaPath={mediasInfos.opening_video}/> },

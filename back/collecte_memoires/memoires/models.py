@@ -40,6 +40,10 @@ class MediaConfig(models.Model):
         help_text="Mettez le nom du dossier où seront stockés les médias enregistrés. Il peut se situer n'importe où. Mais doit exister.",
     )
 
+    seconds_before_idle = models.IntegerField(
+        default=300, verbose_name="Nombre de secondes avant redémarrage pour inactivité"
+    )
+
 
 class ContractConfig(models.Model):
     location = models.TextField(
@@ -107,6 +111,7 @@ class Answer(models.Model):
     accepted_terms_datetime = models.DateTimeField(blank=True, null=True)
     signature = models.TextField()  # stores the base64 image
     is_contract_generated = models.BooleanField(default=False)
+    contract_path = models.CharField(max_length=200, blank=True, null=True)
 
     recording_type = models.SmallIntegerField(
         choices=((0, "video"), (1, "audio")), blank=True, null=True
@@ -151,7 +156,7 @@ class Answer(models.Model):
             Path(ContractConfig.objects.first().docx_contract.path)
         ).resolve()
         output_path = Path(directory_name) / "contract.docx"
-        self.contract_output_path = output_path
+        self.contract_path = output_path
         try:
             generate_contract_for_user(template_path, self, date, location, output_path)
             self.is_contract_generated = True
@@ -172,7 +177,7 @@ Nom du témoin : {self.user_name}
 Email du témoin : {self.user_email}
 Adresse du témoin : {self.user_postal_address}
 Téléphone du témoin : {self.user_phone}
-Contrat généré : {self.is_contract_generated} ({self.contract_output_path})
+Contrat généré : {self.is_contract_generated} ({self.contract_path})
 ----------"""
         for recording in self.recordings.all():
             template += f"""

@@ -36,6 +36,7 @@ def get_contract_config(request):
 @csrf_exempt
 def new_memory(request):
     answer = Answer.objects.create()
+    logger.info(f"Creating new memory ({answer.uuid})")
     return JsonResponse({"uuid": answer.uuid})
 
 
@@ -59,9 +60,7 @@ def answer_to_question(request, answer_uuid, question_uuid):
         recording_type = Recording.RECORDING_TYPE_AUDIO
         extension = "mp3"
     else:
-        logger.error(
-            "AAAAAAAAAA", "unknown content type", request.FILES["media"].content_type
-        )
+        logger.error(f'unknown content type {request.FILES["media"].content_type}')
 
     date = timezone.now().date()
     folder_name = (
@@ -110,9 +109,10 @@ def user_infos(request, answer_uuid):
     answer.user_phone = request.POST.get("user_phone", answer.user_phone)
     answer.save()
 
+    is_digital = False
     if "isDigital" in request.POST:
         is_digital = request.POST.get("isDigital") == "true"
-        answer.set_form_type(is_digital, save=True)
+    answer.set_form_type(is_digital, save=True)
     return JsonResponse({"status": "ok"})
 
 
@@ -131,6 +131,7 @@ def user_signature(request, answer_uuid):
 def terminate_memory(request, answer_uuid):
     answer = get_object_or_404(Answer, uuid=answer_uuid)
     answer.terminate()
+    logger.info(f"Terminating memory ({answer_uuid})")
     return JsonResponse({"status": "ok"})
 
 

@@ -62,7 +62,7 @@ ROOT_URLCONF = "collecte_memoires.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "react_build"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -115,7 +115,12 @@ TIME_ZONE = "Europe/Paris"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "react_build/static",
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -131,11 +136,18 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo)
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "formatters": {
+        "timestamp": {
+            "format": "{asctime} {levelname} {message}",
+            "style": "{",
+        },
+    },
     "handlers": {
         "file": {
             "level": "INFO",
             "class": "logging.FileHandler",
             "filename": Path.home() / "collecte_memoire.log",
+            "formatter": "timestamp",
         },
     },
     # A logger for WARNING which has a handler called 'file'. A logger can have multiple handler

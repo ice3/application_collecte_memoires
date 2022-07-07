@@ -64,7 +64,9 @@ function FormulaireNumerique({
           <div className={signatureClass}>
             <Signature
               onSaved={(dataUrl) => {
-                setSigned(true);
+                setTimeout(() => {
+                  setSigned(true);
+                }, 5);
                 sendSignature(memoryUUID, dataUrl);
               }}
             />
@@ -75,7 +77,7 @@ function FormulaireNumerique({
   }
 
   if (validated && signed) {
-    setTimeout(handleNextGlobalStep, 0);
+    setTimeout(handleNextGlobalStep, 10);
   }
 
   return (

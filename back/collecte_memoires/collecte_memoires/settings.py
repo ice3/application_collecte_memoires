@@ -132,7 +132,7 @@ CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo )
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440 * 100  # (255 mo)
 
-
+LOG_FILENAME = Path.home() / "collecte_memoire.log"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -146,7 +146,7 @@ LOGGING = {
         "file": {
             "level": "INFO",
             "class": "logging.FileHandler",
-            "filename": Path.home() / "collecte_memoire.log",
+            "filename": LOG_FILENAME,
             "formatter": "timestamp",
         },
     },

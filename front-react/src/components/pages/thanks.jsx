@@ -5,7 +5,7 @@ function Thanks({ memoryUUID, mediaPath }) {
   terminateMemory(memoryUUID);
   return (
     <div className="container">
-      <img src={mediaPath} alt="image" />
+      <img src={mediaPath} alt="thanks - conclusion" />
       <ButtonPositive handleClick={() => window.location.reload()}>
         Revenir à l'accueil
       </ButtonPositive>

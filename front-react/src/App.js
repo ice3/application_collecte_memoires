@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import VideoPlayer from './components/pages/video_presentation'
 import AudioOrVideo from './components/pages/choose_audio_video';
@@ -37,12 +36,6 @@ function App() {
   const handleOnActive = () => {}
   const {
     start, 
-    reset,
-    pause,
-    resume,
-    getRemainingTime,
-    getLastActiveTime,
-    getElapsedTime
   } = useIdleTimer({
     timeout: timeout,
     onActive: handleOnActive,
@@ -56,7 +49,7 @@ function App() {
     if(mediasInfos.seconds_before_idle){ 
       start()
     }
-  }, [mediasInfos])
+  }, [mediasInfos, start])
 
 
   useEffect(() => {

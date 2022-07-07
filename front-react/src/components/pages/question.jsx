@@ -1,7 +1,7 @@
 import WebcamStreamCapture from "../elements/webcam";
 import { ButtonNegative, ButtonPositive } from "../elements/button";
 import CountdownRecording from "../elements/countdownRecording";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useSound from "use-sound";
 import Microphone from "../elements/microphone";
 import { sendAnswerMedia } from "../../network_operations";

@@ -1,10 +1,9 @@
-import NextStepButton from "../elements/nextStepButton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Signature from "../elements/signature";
 
 import { UserInfosDigital } from "../elements/userInfos";
 import { sendSignature } from "../../network_operations";
-import { ButtonNeutral, ButtonPositive } from "../elements/button";
+import { ButtonPositive } from "../elements/button";
 import { fetchContractConfig } from "../../network_operations";
 
 function FormulaireNumerique({

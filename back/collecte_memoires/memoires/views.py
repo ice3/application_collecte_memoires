@@ -15,6 +15,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+print("Base_DIR", settings.BASE_DIR)
+print("Base_MEDIAS", settings.BASE_MEDIAS)
+print("STATICFILES_DIRS", settings.STATICFILES_DIRS)
 
 # Create your views here.
 def get_all_questions(request):

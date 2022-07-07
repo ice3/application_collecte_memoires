@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import Question from "./question";
-import { ToastContainer } from "react-toastify";
 
 import { fetchQuestions } from "../../network_operations";
 
@@ -21,7 +20,7 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
       setQuestionStep(currentQuestionId + 1);
     }
     // currentQUestionId is not modified, we need to do strange stuff
-    if (currentQuestionId == questionsNb - 2) {
+    if (currentQuestionId === questionsNb - 2) {
       setQuestionsOver(true);
     }
     setKey(currentQuestionId + 1);
@@ -49,7 +48,7 @@ function RecordMemories({ shouldUseVideo, handleNextGlobalStep, memoryUUID }) {
         invalidQuestion={invalidQuestion}
         key={key}
         memoryUUID={memoryUUID}
-        autoPlayQuestion={currentQuestionId == key}
+        autoPlayQuestion={currentQuestionId === key}
         questionsOver={questionsOver}
         handleNextGlobalStep={handleNextGlobalStep}
       />

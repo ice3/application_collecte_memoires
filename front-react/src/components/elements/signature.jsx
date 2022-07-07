@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { ButtonNegative, ButtonPositive } from "../elements/button";
 

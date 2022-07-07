@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import FormulaireNumerique from "./id_numeric";
 import FormulairePapier from "./id_paper";
-import { UserInfosCommon, UserInfosDigital } from "../elements/userInfos";
-import { ButtonNeutral, ButtonPositive } from "../elements/button";
+import { UserInfosCommon } from "../elements/userInfos";
+import { ButtonNeutral } from "../elements/button";
 
 import { sendUserInfos } from "../../network_operations";
 

@@ -13,7 +13,7 @@ def base64_png_to_buffer(image: str) -> BytesIO:
         image_data = image.split(",", 1)[1]
         return BytesIO(base64.b64decode(image_data))
     except IndexError as e:
-        logger.exception(f"Error splitting signature: {image_data}")
+        logger.exception(f"Error splitting signature: {image}")
         logger.exception(e)
         return BytesIO(b"")
 

@@ -17,6 +17,15 @@ const WebcamStreamCapture = ({
   const [capturing, setCapturing] = React.useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
 
+  const handleDataAvailable = React.useCallback(
+    ({ data }) => {
+      if (data.size > 0) {
+        setRecordedChunks((prev) => prev.concat(data));
+      }
+    },
+    [setRecordedChunks]
+  );
+
   const handleStartCaptureClick = React.useCallback(() => {
     setCapturing(true);
     toast.success("Enregistrement démarré");
@@ -28,16 +37,7 @@ const WebcamStreamCapture = ({
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef]);
-
-  const handleDataAvailable = React.useCallback(
-    ({ data }) => {
-      if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-      }
-    },
-    [setRecordedChunks]
-  );
+  }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
   const handleStopCaptureClick = React.useCallback(() => {
     if (mediaRecorderRef.current.state !== "inactive") {
@@ -45,7 +45,7 @@ const WebcamStreamCapture = ({
     }
     toast.info("Enregistrement terminé");
     setCapturing(false);
-  }, [mediaRecorderRef, webcamRef, setCapturing]);
+  }, [mediaRecorderRef, setCapturing]);
 
   const handleDownload = React.useCallback(() => {
     if (recordedChunks.length) {

@@ -5,7 +5,6 @@ from django.utils.text import slugify
 import os
 from pathlib import Path
 from .docx_utils import generate_contract_for_user
-from mdeditor.fields import MDTextField
 import logging
 
 logger = logging.getLogger(__name__)
@@ -51,7 +50,7 @@ class ContractConfig(models.Model):
         verbose_name="Lieu de captation",
         help_text="Indiquez le lieu à afficher dans les contrats",
     )
-    html_contract = MDTextField(
+    html_contract = models.TextField(
         blank=True,
         verbose_name="Contrat web (en markdown)",
         help_text="Gabarit du contrat de cession des droits (il possède des variables à remplacer en fonction des informations de l'utilisateur). Vous pouvez le formater. Ce contrat n'est utilisé que pour la partie front-end. Le document enregistré est dans un autre fichier.",
@@ -66,7 +65,7 @@ class ContractConfig(models.Model):
 # Create your models here.
 class Question(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    text = MDTextField(
+    text = models.TextField(
         blank=False,
         verbose_name="Texte de la question (avec formatage possible)",
     )

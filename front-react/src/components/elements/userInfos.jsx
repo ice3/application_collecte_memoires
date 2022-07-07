@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import FrenchKeyboard from "../elements/keyboard";
-import { ButtonNeutral, ButtonPositive } from "../elements/button";
+import { ButtonPositive } from "../elements/button";
 
 function UserInfosCommon({
   userInfos,

@@ -18,6 +18,7 @@ front:
 
 build:
 	cd front-react && npm run build;
+	mkdir -p back/collecte_memoires/react_build/;
 	cp -r front-react/build/* back/collecte_memoires/react_build/
 
 .PHONY: back front

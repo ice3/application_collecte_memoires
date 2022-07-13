@@ -305,7 +305,7 @@ saumon: #ead8c0 */
 	background: transparent;
 	border: none;
 	border-bottom: 1px dashed #83A4C5;
-	width: 275px;
+	width: 60%;
 	outline: none;
 	padding: 0px 0px 0px 2px;
   font-size: 25px;
@@ -376,4 +376,8 @@ background: #394D61;
 
 .mt-0 {
   margin-top: 0px!important;
+}
+
+div.hg-row:nth-child(5) > div:nth-child(1){
+  display: none
 }

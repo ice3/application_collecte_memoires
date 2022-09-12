@@ -124,7 +124,7 @@ def user_infos(request, answer_uuid):
 def user_signature(request, answer_uuid):
     answer = get_object_or_404(Answer, uuid=answer_uuid)
     answer.signature = request.POST.get("signature")
-    answer.accepted_terms_datetime = timezone.now()
+    answer.accepted_terms_datetime = timezone.localtime(timezone.now())
     answer.save()
     return JsonResponse({"status": "ok"})
 

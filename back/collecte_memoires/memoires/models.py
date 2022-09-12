@@ -148,8 +148,12 @@ class Answer(models.Model):
         self.recordings.update(directory_name=new_directory_name)
 
     def generate_pdf_contract(self):
+        """
+        Generate "legal" documents from answers / information :
+            * a pdf (docx in fact) contract
+        """
         location = ContractConfig.objects.first().location
-        date = f"{timezone.now():%m/%d/%Y-%H:%M:%S}"
+        date = f"{timezone.localtime(timezone.now()):%m/%d/%Y-%H:%M:%S}"
         directory_name = self.recordings.first().directory_name
         template_path = (
             Path(ContractConfig.objects.first().docx_contract.path)
@@ -166,10 +170,11 @@ class Answer(models.Model):
         self.save()
 
     def generate_informations(self):
-        """Generate a 'readme' with all the informations"""
+        """Generate a 'readme' with all the informations.
+        Ugly way of generating txt from templates but it works"""
         directory_name = self.recordings.first().directory_name
         template = f"""
-Mémoires ({self.get_recording_type_display()}) capturées entre {self.start_time:%m/%d/%Y-%H:%M:%S} et {self.end_time:%m/%d/%Y-%H:%M:%S}.
+Mémoires ({self.get_recording_type_display()}) capturées entre {timezone.localtime(self.start_time):%m/%d/%Y-%H:%M:%S} et {timezone.localtime(self.end_time):%m/%d/%Y-%H:%M:%S}.
 ----------
 Type de formulaire : {self.get_form_type_display()}. 
 Nom du témoin : {self.user_name}
@@ -181,14 +186,14 @@ Contrat généré : {self.is_contract_generated} ({self.contract_path})
         for recording in self.recordings.all():
             template += f"""
 Question : {recording.question.text}
-Le : {recording.date:%m/%d/%Y-%H:%M:%S}
+Le : {timezone.localtime(recording.date):%m/%d/%Y-%H:%M:%S}
 Fichier : {recording.file_name}
             """
         open(Path(directory_name) / "informations.txt", "w").write(template)
 
     def terminate(self):
         self.terminated = True
-        self.end_time = timezone.now()
+        self.end_time = timezone.localtime(timezone.now())
 
         self.rename_captures_folder()
         if self.form_type == self.FORM_TYPE_DIGITAL:

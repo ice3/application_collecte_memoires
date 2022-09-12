@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+
 BASE_URL = "http://localhost:8000/"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

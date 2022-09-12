@@ -31,6 +31,18 @@ const WebcamStreamCapture = ({
     toast.success("Enregistrement démarré");
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: "video/webm",
+      audioBitsPerSecond: 128000,
+      video: {
+        width: { min: 1280 },
+        height: { min: 720 },
+        frameRate: { min: 30 },
+      },
+      audio: {
+        channelCount: 2,
+        sampleRate: 44100,
+        sampleSize: 24,
+        volume: 1,
+      },
     });
     mediaRecorderRef.current.addEventListener(
       "dataavailable",
@@ -85,6 +97,17 @@ const WebcamStreamCapture = ({
             onUserMedia={(e) => console.log("Could capture media device", e)}
             autoPlay={true}
             muted="muted"
+            videoConstraints={{
+              width: { min: 1280 },
+              height: { min: 720 },
+              frameRate: { min: 30 },
+            }}
+            audioConstraints={{
+              channelCount: 2,
+              sampleRate: 44100,
+              sampleSize: 24,
+              volume: 1,
+            }}
           />
           <div className="indicateur">{children}</div>
         </div>

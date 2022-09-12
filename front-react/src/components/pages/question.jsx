@@ -109,8 +109,10 @@ function Question({
   };
 
   if (autoPlayQuestion) {
-    console.log("play question");
-    play();
+    if (!isPlaying) {
+      console.log("play question");
+      play();
+    }
   }
 
   const handleIsValid = (memoryUUID, streamBlob) => {
@@ -152,7 +154,9 @@ function Question({
   console.log("");
 
   const playSound = () => {
-    play();
+    if (!isPlaying) {
+      play();
+    }
   };
 
   const stopSound = () => {
@@ -198,6 +202,7 @@ function Question({
             isValid={isValid}
             handleIsValid={(blob) => handleIsValid(memoryUUID, blob)}
             shouldUseVideo={shouldUseVideo}
+            key={isPlaying}
           >
             <div className={[prepareForRecordCountdownClass].join(" ")}>
               <CountdownRecording

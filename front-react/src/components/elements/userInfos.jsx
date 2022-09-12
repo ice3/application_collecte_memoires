@@ -40,20 +40,21 @@ function UserInfosCommon({
   };
 
   const checkEmail = (fieldName) => {
-    if (inputs[fieldName] === undefined) {
-      setIsEmailValid(true);
-      return;
-    }
-    if (inputs[fieldName] === "") {
-      setIsEmailValid(true);
-      return;
-    }
-    const email = inputs[fieldName];
-    const re =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
-    setIsEmailValid(re.test(email));
-    console.log(email, re.test(email));
-    return re.test(email);
+    return true;
+    // if (inputs[fieldName] === undefined) {
+    //   setIsEmailValid(true);
+    //   return;
+    // }
+    // if (inputs[fieldName] === "") {
+    //   setIsEmailValid(true);
+    //   return;
+    // }
+    // const email = inputs[fieldName];
+    // const re =
+    //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+    // setIsEmailValid(re.test(email));
+    // console.log(email, re.test(email));
+    // return re.test(email);
   };
 
   const checkAllFilled = (fieldNames) => {

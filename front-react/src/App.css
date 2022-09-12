@@ -171,6 +171,7 @@ h1, h2 {
 
 .video-canvas {
   width: 98%;
+  max-height: 600px;
 }
 
 .react-simple-keyboard {
@@ -376,8 +377,4 @@ background: #394D61;
 
 .mt-0 {
   margin-top: 0px!important;
-}
-
-div.hg-row:nth-child(5) > div:nth-child(1){
-  display: none
 }
